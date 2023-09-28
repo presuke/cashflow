@@ -1,8 +1,8 @@
 <script>
-import Header from './components/Header.vue';
+import Header from '../Header.vue';
 import Action from './components/Action.vue'
 import Score from './components/Score.vue'
-import Footer from './components/Footer.vue';
+import Footer from '../Footer.vue';
 import Const from '../../js/const.js';
 
 export default {
@@ -444,7 +444,7 @@ export default {
   @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Rajdhani:wght@500&family=Shrikhand&display=swap');
 </style>
 <style lang="scss" scoped>
-@import '../../scss/play/app.scss';
+@import '../../scss/app.scss';
 </style>
 
 <template>
