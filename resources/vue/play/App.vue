@@ -3,6 +3,7 @@ import Header from './components/Header.vue';
 import Action from './components/Action.vue'
 import Score from './components/Score.vue'
 import Footer from './components/Footer.vue';
+import Const from '../../js/const.js';
 
 export default {
 	components: {
@@ -72,7 +73,7 @@ export default {
 	}),
 	created() {
 		const segments = window.location.pathname.split('/');
-		let dateTime = new Date();
+		
 		this.playerid = segments[segments.length - 1];
 		this.problem = this.const.problems.unAuth;
 		this.authtoken = localStorage.getItem(this.const.authTokenName);
@@ -105,7 +106,7 @@ export default {
 			//部屋の状況を取得
 			this.authtoken = localStorage.getItem(this.const.authTokenName);
 			axios
-			.get('/api/v1/play/getRoomStatus', {
+			.get(Const.API_ROOT_PATH + '/api/v1/play/getRoomStatus', {
 				params: {
 					playerid: this.playerid,
 					authtoken: this.authtoken,
@@ -274,7 +275,7 @@ export default {
 			this.actionResult.message = '';
 			this.authtoken = localStorage.getItem(this.const.authTokenName);
 			axios
-			.get('/api/v1/play/action', {
+			.get(Const.API_ROOT_PATH + '/api/v1/play/action', {
 				params: {
 					playerid: this.playerid,
 					authtoken: this.authtoken,
@@ -305,7 +306,7 @@ export default {
 		confirm(){
 			this.actionResult.error = '';
 			axios
-			.get('/api/v1/play/action', {
+			.get(Const.API_ROOT_PATH + '/api/v1/play/action', {
 				params: {
 					playerid: this.playerid,
 					crntPlayer: this.crntPlayer,
@@ -345,7 +346,7 @@ export default {
 					this.form.banking.error = this.form.banking.amount.toLocaleString() + '借入れても物件価格に到達しません。';
 				}else{
 					axios
-					.get('/api/v1/play/action', {
+					.get(Const.API_ROOT_PATH + '/api/v1/play/action', {
 						params: {
 							playerid: this.playerid,
 							authtoken: this.authtoken,
@@ -374,7 +375,7 @@ export default {
 		login(){
 			this.form.login.error = '';
 			axios
-			.get('/api/v1/play/login', {
+			.get(Const.API_ROOT_PATH + '/api/v1/play/login', {
 				params: {
 					playerid: this.playerid,
 					pass: this.form.login.pass,
