@@ -13,6 +13,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/css/app.css',
+                'resources/js/room/app.js',
+                'resources/js/play/app.js',
                 'resources/js/app.js',
             ],
             refresh: true,
