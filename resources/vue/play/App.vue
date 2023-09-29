@@ -291,7 +291,7 @@ export default {
 		confirm(){
 			this.actionResult.error = '';
 			axios
-			.get(this.const.docPath + '/api/v1/play/action', {
+			.post(this.const.docPath + '/api/v1/play/action', {
 				params: {
 					playerid: this.playerid,
 					crntPlayer: this.crntPlayer,
