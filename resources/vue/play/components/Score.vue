@@ -6,7 +6,7 @@
     v-bind:class="[player.id == $parent.crntPlayer.id ? 'activePlayer' : 'passivePlayer']"
     class="rowPlayer">
         <v-col>
-            <div v-bind:class="[player.flgFire == '1' ? 'scaleShow' : 'scaleHide']" class="fire">FIRE ZONE</div>
+            <div v-bind:class="[player.flgFire == '1' ? 'scaleShow' : 'scaleHide']">FIRE ZONE</div>
             <div class="player">
                 <img 
                 :src="$parent.const.docPath + '/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 

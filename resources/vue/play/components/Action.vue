@@ -443,8 +443,8 @@
                     </div>
                     <div v-else>
                         <div class="actionTitle">生活水準を上げようとしましたが、思いとどまりました。</div>
-                        <div style="margin-top:30px;">
-                            <img src="../../../image/action/lifelevelRise.png" style="width:200px; height:150px; filter:grayscale(100%);" />
+                        <div style="margin-top:70px;">
+                            <img src="../../../image/action/lifelevelRise.png" style="width:140px; height:112px; filter:grayscale(100%);" />
                         </div>
                     </div>
                 </div>
@@ -457,8 +457,8 @@
                     </div>
                     <div v-else>
                         <div class="actionTitle">生活水準を下げようとしましたが、思いとどまりました。</div>
-                        <div style="margin-top:30px;">
-                            <img src="../../../image/action/lifelevelDrop.png" style="width:200px; height:150px; filter:grayscale(100%);" />
+                        <div style="margin-top:70px;">
+                            <img src="../../../image/action/lifelevelDrop.png" style="width:140px; height:112px; filter:grayscale(100%);" />
                         </div>
                     </div>
                 </div>
@@ -622,10 +622,10 @@
                 class="riseZone"
                 >
                     <div>
-                        <div class="actionTitle">ファイアーゾーンに昇格しました！</div>
+                        <div class="actionTitle">FireZoneに突入しました！</div>
                         <img
                         :src="$parent.const.docPath + '/image/action/riseFire.jpg'"
-                        style="width: 320px; height: 250px;"
+                        style="margin-top:30px; width: 320px; height: 180px;"
                         />
                     </div>
                 </div>
@@ -633,10 +633,10 @@
                 class="dropZone"
                 >
                     <div>
-                        <div class="actionTitle">ラットレースゾーンに降格しました！</div>
+                        <div class="actionTitle">ラットレースゾーンに転落しました！</div>
                         <img
-                        :src="$parent.const.docPath + '/image/action/dropFire_' + $parent.crntPlayer.sex + '.jpg'"
-                        style="width: 250px; height: 250px;"
+                        :src="$parent.const.docPath + '/image/action/dropFire_' + $parent.crntPlayer.sex + '.png'"
+                        style="margin-top:20px; width: 200px; height: 180px;"
                         />
                     </div>
                 </div>

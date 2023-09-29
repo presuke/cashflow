@@ -4,6 +4,24 @@ import Action from './components/Action.vue'
 import Score from './components/Score.vue'
 import Footer from '../Footer.vue';
 
+import seCount from '../../se/count.mp3';
+import seSlide from '../../se/slide.mp3';
+import seError from '../../se/error.mp3';
+import seSuccess from '../../se/success.mp3';
+import seAction from '../../se/action.mp3';
+import seDropLifelevel from '../../se/dropLifelevel.mp3';
+import seRiseLifelevel from '../../se/riseLifelevel.mp3';
+import seBuyAsset from '../../se/buyAsset.mp3';
+import seTrade from '../../se/trade.mp3';
+import seTreat from '../../se/treate.mp3';
+import seWork from '../../se/work.mp3';
+import seSic from '../../se/sic.mp3';
+import seNoTrade from '../../se/noTrade.mp3';
+import sePeriod from '../../se/period.mp3';
+import seRiseFire from '../../se/riseFire.mp3';
+import seDropFire from '../../se/dropFire.mp3';
+import seWin from '../../se/win.mp3';
+
 export default {
 	components: {
 		Header,
@@ -32,6 +50,7 @@ export default {
 		scores:{},
 		errors: [],
 		problem: -1,
+		beforeStatus: '',
 		const:{
 			authTokenName: 'CF_AUTH_TOKEN',
 			docPath: '',
@@ -171,6 +190,9 @@ export default {
 							this.actionResult.error = '';
 						}
 
+						//音を鳴らす
+						this.playSoundErrect();
+
 						//スコアを更新する
 						this.updateScore();
 
@@ -210,6 +232,77 @@ export default {
 				setTimeout(() =>this.refleshStatus(), 500);
 			});
 		},
+		playSoundErrect(){
+			const key = this.crntPlayer.id + ':' + this.action.action;
+			if(this.beforeStatus != key){
+				this.beforeStatus = key;
+				let se = new Audio(seSlide);
+				switch(this.action.action){
+					case 'work':{
+						se = new Audio(seWork);
+						break;
+					}
+					case 'sic':{
+						se = new Audio(seSic);
+						break;
+					}
+					case 'treat':{
+						se = new Audio(seTreat);
+						break;
+					}
+					case 'dropLifeLevel':{
+						se = new Audio(seDropLifelevel);
+						break;
+					}
+					case 'riseLifeLevel':{
+						se = new Audio(seRiseLifelevel);
+						break;
+					}
+					case 'trade':{
+						se = new Audio(seTrade);
+						break;
+					}
+					case 'buyEstate':{
+						se = new Audio(seBuyAsset);
+						break;
+					}
+					case 'buyStock':{
+						se = new Audio(seBuyAsset);
+						break;
+					}
+					case 'lostEstate':{
+						se = new Audio(seNoTrade);
+						break;
+					}
+					case 'lostStock':{
+						se = new Audio(seNoTrade);
+						break;
+					}
+					case 'riseFire':{
+						se = new Audio(seRiseFire);
+						break;
+					}
+					case 'dropFire':{
+						se = new Audio(seDropFire);
+						break;
+					}
+					case 'win':{
+						se = new Audio(seWin);
+						break;
+					}
+					case 'periodComplete':{
+						break;
+					}
+					default:{
+						if(this.crntPlayer.turn % this.room.period == 0){
+							se = new Audio(sePeriod);
+						}
+						break;
+					}
+				}
+				se.play();
+			}
+		},
 		updateScore(){
 			try{
 				const keyParameters = ['money', 'stock', 'estate', 'loan', 'stress'];
@@ -228,6 +321,8 @@ export default {
 					keyParameters.forEach(keyParameter =>{
 						if(player[keyParameter] != this.scores[player.id][keyParameter]){
 							let timerAnimation = setInterval(() =>{
+								let se = new Audio(seCount);
+								se.play();
 								this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 10);
 								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10)
 									this.scores[player.id][keyParameter] = player[keyParameter];
@@ -247,8 +342,12 @@ export default {
 		act(actionMode){
 			if(this.crntPlayer.id != this.me.id){
 				this.actionResult.error = 'あなたのターンではありません。';
+				let se = new Audio(seError);
+				se.play();
 				return;
 			}
+			let se = new Audio(seAction);
+			se.play();
 			this.isProcessing = true;
 			this.reflesh.count = 0;
 			this.actionResult.error = '';
@@ -290,6 +389,9 @@ export default {
 		},
 		confirm(){
 			this.actionResult.error = '';
+			let se = new Audio(seAction);
+			se.play();
+
 			axios
 			.post(this.const.docPath + '/api/v1/play/action', {
 				params: {
@@ -318,8 +420,12 @@ export default {
 		doBanking(target){
 			if(this.crntPlayer.id != this.me.id){
 				this.actionResult.error = 'あなたのターンではありません。';
+				let se = new Audio(seError);
+				se.play();
 				return;
 			}
+			let se = new Audio(seAction);
+			se.play();
 			if(target > 0){
 				this.form.banking.target = target;
 				this.form.banking.amount = 0;
@@ -331,8 +437,12 @@ export default {
 				this.form.banking.message = '';
 				if(this.form.banking.amount == 0){
 					this.form.banking.error = '借入額を決めてください。';
+					let se = new Audio(seError);
+					se.play();
 				}else if(this.form.banking.target > this.crntPlayer.money + this.form.banking.amount){
 					this.form.banking.error = this.form.banking.amount.toLocaleString() + '借入れても物件価格に到達しません。';
+					let se = new Audio(seError);
+					se.play();
 				}else{
 					axios
 					.post(this.const.docPath + '/api/v1/play/action', {
@@ -347,9 +457,13 @@ export default {
 						try {
 							if(response.data.error != undefined){
 								this.form.banking.error = response.data.error;
+								let se = new Audio(seError);
+								se.play();
 							}else{
 								this.form.banking.message = response.data.message;
 								this.refleshStatus();
+								let se = new Audio(seSuccess);
+								se.play();
 							}
 						} catch (e) {
 							this.errors = e;
@@ -363,6 +477,9 @@ export default {
 		},
 		login(){
 			this.form.login.error = '';
+			let se = new Audio(seAction);
+			se.play();
+
 			axios
 			.post(this.const.docPath + '/api/v1/play/login', {
 				playerid: this.playerid,
@@ -376,12 +493,18 @@ export default {
 						this.form.login.success = true;
 						this.form.login.displayDialog = false;
 						this.refleshStatus();
+						let se = new Audio(seSuccess);
+						se.play();
 					}
 					else if(response.data.error != undefined){
 						this.form.login.displayDialog = true;
 						this.form.login.error = response.data.error;
+						let se = new Audio(seError);
+						se.play();
 					}else{
 						this.errors.push('特定できないエラー');
+						let se = new Audio(seError);
+						se.play();
 					}
 				} catch (e) {
 					this.errors = e;
@@ -394,8 +517,13 @@ export default {
 		logout(){
 			localStorage.setItem(this.const.authTokenName, '');
 			this.refleshStatus();
+			let se = new Audio(seAction);
+			se.play();
 		},
 		changeStockHas(stock, num){
+			let se = new Audio(seCount);
+			se.play();
+
 			if(num > 0 || stock.has != 0){
 				stock.has += num;
 			}

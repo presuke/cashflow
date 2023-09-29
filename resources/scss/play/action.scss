@@ -116,13 +116,16 @@
 
     .trade{
         .assetlist{
+            position: relative;
+            z-index:3;
+            background-image: url('../../../image/plate.png');
+            background-size: 100% 100%;
             width:300px; 
             height:100px; 
             overflow-y:auto; 
-            border:solid thin lightgray;
             border-radius: 10px;
             margin:50 auto 0; 
-            padding:5px;
+            padding:10px;
             font-family: 'Shrikhand', cursive;
             .selected{
                 color:red;
@@ -163,6 +166,7 @@
     }
 
     .actionResult{
+        background-color: rgba(255,255,128,0.5);
         .vacation{
             div{
                 margin-bottom:5px;
@@ -330,7 +334,7 @@
     font-family: 'Kosugi Maru', sans-serif;
     height:300px;
     width:100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
 }
