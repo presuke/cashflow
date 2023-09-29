@@ -6,7 +6,21 @@
     v-bind:class="[player.id == $parent.crntPlayer.id ? 'activePlayer' : 'passivePlayer']"
     class="rowPlayer">
         <v-col>
-            <div v-bind:class="[player.flgFire == '1' ? 'scaleShow' : 'scaleHide']">FIRE ZONE</div>
+            <div v-bind:class="[player.flgFire == '1' ? 'scaleShow' : 'scaleHide']" 
+            style="position: absolute;
+                   right: 15;
+                   top: 2;
+                   z-index:1;
+                   color: rgba(255,255,255,1);
+                   text-shadow: 
+                   0 0 10px rgb(241, 168, 8),
+                   0 0 20px rgb(250, 168, 17),
+                   0 0 40px rgb(255, 65, 65);
+                   will-change: filter, color;
+                   filter: saturate(60%);
+                   font-family: 'Shrikhand', cursive;
+                   font-size: 15px;
+                   font-weight: 700;">FIRE ZONE</div>
             <div class="player">
                 <img 
                 :src="$parent.const.docPath + '/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 

@@ -4,6 +4,7 @@ import Action from './components/Action.vue'
 import Score from './components/Score.vue'
 import Footer from '../Footer.vue';
 
+import seKatakata from '../../se/katakata.mp3';
 import seCount from '../../se/count.mp3';
 import seSlide from '../../se/slide.mp3';
 import seError from '../../se/error.mp3';
@@ -278,11 +279,11 @@ export default {
 						se = new Audio(seNoTrade);
 						break;
 					}
-					case 'riseFire':{
+					case 'riseZone':{
 						se = new Audio(seRiseFire);
 						break;
 					}
-					case 'dropFire':{
+					case 'dropZone':{
 						se = new Audio(seDropFire);
 						break;
 					}
@@ -323,14 +324,14 @@ export default {
 							let timerAnimation = setInterval(() =>{
 								let se = new Audio(seCount);
 								se.play();
-								this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 10);
+								this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
 								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10)
 									this.scores[player.id][keyParameter] = player[keyParameter];
 
 								if(this.scores[player.id][keyParameter] == player[keyParameter]){
 									clearInterval(timerAnimation);
 								}
-							},50);
+							},100);
 						}
 					});
 				});
