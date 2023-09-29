@@ -20,6 +20,7 @@ class Play extends BaseController
             $ret = [];
             $ret['code'] = 0;
             $params = $request->all();
+            $params = $params['params'];
             try {
                 $playerid = $params['playerid'];
                 $authToken = $params['authtoken'];

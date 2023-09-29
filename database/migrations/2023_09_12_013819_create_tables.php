@@ -41,7 +41,7 @@ return new class extends Migration
             $table->integer('stress')->default(0)->comment('ストレス');
             $table->integer('turn')->default(0)->comment('ターン');
             $table->integer('lifelevel')->default(0)->comment('生活水準');
-            $table->integer('fireFlg')->default(0)->comment('ファイヤーゾーンかどうか');
+            $table->integer('flgFire')->default(0)->comment('ファイヤーゾーンかどうか');
             $table->datetime('ins')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
             $table->datetime('upd')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->comment('更新日時');
         });

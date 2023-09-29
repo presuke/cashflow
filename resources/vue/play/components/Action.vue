@@ -58,7 +58,7 @@
             <v-card-title>
                 <div class="crentPlayer">
                     <img 
-                    :src="'/image/avatar/' + $parent.crntPlayer.sex + '/icon0' + $parent.crntPlayer.img + '.png'" 
+                    :src="$parent.const.docPath + '/image/avatar/' + $parent.crntPlayer.sex + '/icon0' + $parent.crntPlayer.img + '.png'" 
                     class="rounded-circle"
                     style="width:30px; height:30px;	vertical-align:middle;"
                     />
@@ -74,7 +74,7 @@
                 <div v-if="($parent.crntPlayer.turn % $parent.room.period) == 0 && $parent.action.action != 'periodComplete'"
                 class="periodComplete"
                 >
-                    <div style="background-image: url('/image/action/kessan.png'); background-repeat: no-repeat; background-position-x: center; background-size: contain; width:300px;height:200px;">
+                    <div style="background-image: url('../../../image/action/kessan.png'); background-repeat: no-repeat; background-position-x: center; background-size: contain; width:300px;height:200px;">
                         <div style="font-size:100px; color:yellow; text-shadow: 0 0 10px red, 0 0 20px darkred;">
                             決算
                         </div>
@@ -108,43 +108,19 @@
                 <div style="margin: 0 auto;">
                     <div class="actionControll" style="top:50px; left:0px; right:0px; margin:auto; width:90%;">
                         <div 
-                        class="cardDesign"
+                        class="cardDesign workMale"
                         v-if="$parent.crntPlayer.sex == 'male'"
-                        style="background-image: url('/image/action/work_male.png'); 
-                        background-color:lightblue; 
-                        text-align:center; 
-                        width:100px; 
-                        height:110px; 
-                        float:left;
-                        margin-left:50px;
-                        padding-top:110px;"
                         @click="$parent.act('work')">
                             働く
                         </div>
                         <div 
-                        class="cardDesign"
+                        class="cardDesign workFmale"
                         v-else
-                        style="background-image: url('/image/action/work_fmale.png'); 
-                        background-color:lightblue; 
-                        text-align:center; 
-                        width:100px; 
-                        height:110px; 
-                        float:left;
-                        margin-left:50px;
-                        padding-top:110px;"
                         @click="$parent.act('work')">
                             働く
                         </div>
                         <div 
-                        class="cardDesign"
-                        style="background-image: url('/image/action/vacation.png'); 
-                        background-color:lightpink; 
-                        text-align:center; 
-                        width:100px; 
-                        height:110px; 
-                        float:right;
-                        margin-right:50px;
-                        padding-top:110px;"
+                        class="cardDesign treat"
                         @click="$parent.act('treat')">
                             休む
                         </div>
@@ -174,12 +150,12 @@
                                 </div>
                                 <div style="position:relative; z-index:9; margin-top:10px; text-shadow: 2 2 0.2 lightgray; font-family: 'Shrikhand', cursive;;">
                                     <img 
-                                    src="/image/control/circle-remove.svg" 
+                                    :src="$parent.const.docPath + '/image/control/circle-remove.svg'" 
                                     class="stockAdjust"
                                     @click="$parent.changeStockHas(asset, -1)" />
                                     {{ asset.has }}
                                     <img 
-                                    src="/image/control/circle-add.svg" 
+                                    :src="$parent.const.docPath + '/image/control/circle-add.svg'" 
                                     class="stockAdjust"
                                     @click="$parent.changeStockHas(asset, 1)" />
                                 </div>
@@ -245,7 +221,7 @@
                         >
                             <div style="clear:left; float:left; width:20px;">
                                 <img 
-                                :src="'/image/status/' + asset.type + '.svg'" 
+                                :src="$parent.const.docPath + '/image/status/' + asset.type + '.svg'" 
                                 style="width:20px; height:20px;"
                                 />
                             </div>
@@ -299,26 +275,12 @@
                 </div>
                 <div class="actionControll" style="top:50px; left:0px; right:0px; margin:auto; width:90%;">
                     <div 
-                        class="cardDesign"
-                        style="background-image: url('/image/action/lifelevelRise.png'); 
-                        text-align:center; 
-                        width:120px; 
-                        height:100px; 
-                        float:left;
-                        margin-left:30px;
-                        padding-top:70px;"
+                        class="cardDesign lifelevelRise"
                         @click="$parent.act('riseLifeLevel')">
                         上げる
                         </div>
                         <div 
-                        class="cardDesign"
-                        style="background-image: url('/image/action/lifelevelDrop.png'); 
-                        text-align:center; 
-                        width:120px; 
-                        height:100px; 
-                        float:right;
-                        margin-right:30px;
-                        padding-top:70px;"
+                        class="cardDesign lifelevelDrop"
                         @click="$parent.act('dropLifeLevel')">
                         下げる
                         </div>
@@ -331,7 +293,7 @@
                 <div class="actionTitle">休暇を取得してリフレッシュする</div>
                 <div class="vacation">
                     <img 
-                    :src="'/image/action/vacation.png'" />
+                    :src="$parent.const.docPath + '/image/action/vacation.png'" />
                 </div>
                 <div class="actionControll">
                     <v-btn @click="$parent.act('treat')">
@@ -356,7 +318,7 @@
                     >
                         <div class="actionTitle">一生懸命働きました！</div>
                         <img
-                        :src="'/image/action/salary_' + $parent.crntPlayer.sex + '.png'"
+                        :src="$parent.const.docPath + '/image/action/salary_' + $parent.crntPlayer.sex + '.png'"
                         style="width: 220px; height: 220px;"
                         />
                     </div>
@@ -365,14 +327,14 @@
                     >
                         <div class="actionTitle">一生懸命働きましたが、<br />休まないと病気になるかもしれません。</div>
                         <img
-                        :src="'/image/action/work_hard_' + $parent.crntPlayer.sex + '.png'"
+                        :src="$parent.const.docPath + '/image/action/work_hard_' + $parent.crntPlayer.sex + '.png'"
                         style="width: 200px; height: 200px;"
                         />
                     </div>
                     <div class="statusChange" style="margin:0 auto;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -380,7 +342,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/health.svg" 
+                            src="../../../image/status/health.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #c66);"
                             />
@@ -396,13 +358,13 @@
                         <div>治療費を払いました。</div>
                     </div>
                     <img
-                    :src="'/image/action/sic_' + $parent.crntPlayer.sex + '.png'"
+                    :src="$parent.const.docPath + '/image/action/sic_' + $parent.crntPlayer.sex + '.png'"
                     style="width: 250px; height: 250px;"
                     />
                     <div class="statusChange" style="margin:0 auto;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -410,7 +372,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/health.svg" 
+                            src="../../../image/status/health.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #c66);"
                             />
@@ -425,13 +387,13 @@
                     v-if="Math.ceil($parent.crntPlayer.lifelevel /2) == 1"
                     >
                         <div class="actionTitle">ゲームで遊びまくりました！</div>
-                        <img src="/image/action/v1.png" />
+                        <img :src="$parent.const.docPath + '/image/action/v1.png'" />
                     </div>
                     <div 
                     v-else-if="Math.ceil($parent.crntPlayer.lifelevel /2) == 2"
                     >
                         <div class="actionTitle">カラオケパーティーで大はしゃぎしました！</div>
-                        <img src="/image/action/v2.jpg" />
+                        <img :src="$parent.const.docPath + '/image/action/v2.jpg'" />
                     </div>
                     <div 
                     v-else-if="Math.ceil($parent.crntPlayer.lifelevel /2) == 3"
@@ -439,24 +401,24 @@
                         <div class="actionTitle">
                             温泉旅行でリフレッシュしました！
                         </div>
-                        <img src="/image/action/v3.jpg" />
+                        <img :src="$parent.const.docPath + '/image/action/v3.jpg'" />
                     </div>
                     <div 
                     v-else-if="Math.ceil($parent.crntPlayer.lifelevel /2) == 4"
                     >
                         <div class="actionTitle">豪華ホテルでディナー！</div>
-                        <img src="/image/action/v4.jpg" />
+                        <img :src="$parent.const.docPath + '/image/action/v4.jpg'" />
                     </div>
                     <div 
                     v-else-if="Math.ceil($parent.crntPlayer.lifelevel /2) == 5"
                     >
                         <div class="actionTitle">海外旅行で大豪遊！</div>
-                        <img src="/image/action/v5.jpg" />
+                        <img :src="$parent.const.docPath + '/image/action/v5.jpg'" />
                     </div>
                     <div class="statusChange" style="margin:0 auto;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -464,7 +426,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/health.svg" 
+                            src="../../../image/status/health.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #c66);"
                             />
@@ -476,13 +438,13 @@
                     <div v-if="$parent.action.parameter.result == 'success'">
                         <div class="actionTitle">生活水準を上げました</div>
                         <div style="margin-top:30px;">
-                            <img src="/image/action/lifelevelRise.png" style="width:200px; height:150px;" />
+                            <img src="../../../image/action/lifelevelRise.png" style="width:200px; height:150px;" />
                         </div>
                     </div>
                     <div v-else>
                         <div class="actionTitle">生活水準を上げようとしましたが、思いとどまりました。</div>
                         <div style="margin-top:30px;">
-                            <img src="/image/action/lifelevelRise.png" style="width:200px; height:150px; filter:grayscale(100%);" />
+                            <img src="../../../image/action/lifelevelRise.png" style="width:200px; height:150px; filter:grayscale(100%);" />
                         </div>
                     </div>
                 </div>
@@ -490,13 +452,13 @@
                     <div v-if="$parent.action.parameter.result == 'success'">
                         <div class="actionTitle">生活水準を下げました</div>
                         <div style="margin-top:30px;">
-                            <img src="/image/action/lifelevelDrop.png" style="width:200px; height:150px;" />
+                            <img src="../../../image/action/lifelevelDrop.png" style="width:200px; height:150px;" />
                         </div>
                     </div>
                     <div v-else>
                         <div class="actionTitle">生活水準を下げようとしましたが、思いとどまりました。</div>
                         <div style="margin-top:30px;">
-                            <img src="/image/action/lifelevelDrop.png" style="width:200px; height:150px; filter:grayscale(100%);" />
+                            <img src="../../../image/action/lifelevelDrop.png" style="width:200px; height:150px; filter:grayscale(100%);" />
                         </div>
                     </div>
                 </div>
@@ -505,13 +467,13 @@
                 >
                     <div class="actionTitle">株式投資をしました。</div>
                     <img 
-                        :src="'/image/action/stock_buy_' + $parent.crntPlayer.sex + '.png'"
+                        :src="$parent.const.docPath + '/image/action/stock_buy_' + $parent.crntPlayer.sex + '.png'"
                         style="width:200px; height:200px;"
                         />
                     <div class="statusChange" style="margin:0 auto;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -519,7 +481,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/stock.svg" 
+                            src="../../../image/status/stock.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #c66);"
                             />
@@ -531,14 +493,14 @@
                     <div>
                         <div class="actionTitle">不動産物件を購入しました。</div>
                         <img 
-                            :src="'/image/action/estate_buy_' + $parent.crntPlayer.sex + '.png'"
+                            :src="$parent.const.docPath + '/image/action/estate_buy_' + $parent.crntPlayer.sex + '.png'"
                             style="margin-top:10px; width:200px; height:180px;"
                             />
                     </div>
                     <div class="statusChange" style="margin:0 auto;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -546,7 +508,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/estate.svg" 
+                            src="../../../image/status/estate.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #c66);"
                             />
@@ -558,7 +520,7 @@
                     <div class="actionTitle">資産の売却を見送りました。</div>
                     <div class="lost">
                         <img 
-                        :src="'/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
+                        :src="$parent.const.docPath + '/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
                     </div>
                 </div>
                 <div v-else-if="$parent.action.action == 'trade'"
@@ -572,7 +534,7 @@
                     <div class="statusChange" style="transform:scale(0.6,0.6); margin-top:-20px;">
                         <div>
                             <img 
-                            src="/image/status/money.svg" 
+                            src="../../../image/status/money.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #990);"
                             />
@@ -580,7 +542,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/stock.svg" 
+                            src="../../../image/status/stock.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #66c);"
                             />
@@ -588,7 +550,7 @@
                         </div>
                         <div>
                             <img 
-                            src="/image/status/estate.svg" 
+                            src="../../../image/status/estate.svg" 
                             class="icon" 
                             style="filter: drop-shadow(2px 2px 2px #6c6);"
                             />
@@ -600,14 +562,14 @@
                     <div class="actionTitle">不動産物件の購入を見送りました。</div>
                     <div class="lost">
                         <img 
-                        :src="'/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
+                        :src="$parent.const.docPath + '/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
                     </div>
                 </div>
                 <div v-else-if="$parent.action.action == 'lostStock'">
                     <div class="actionTitle">株券の購入を見送りました。</div>
                     <div class="lost">
                         <img 
-                        :src="'/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
+                        :src="$parent.const.docPath + '/image/action/lost_' + $parent.crntPlayer.sex + '.png'" />
                     </div>
                 </div>
                 <div v-else-if="$parent.action.action == 'periodComplete'"
@@ -662,7 +624,7 @@
                     <div>
                         <div class="actionTitle">ファイアーゾーンに昇格しました！</div>
                         <img
-                        :src="'/image/action/riseFire.jpg'"
+                        :src="$parent.const.docPath + '/image/action/riseFire.jpg'"
                         style="width: 320px; height: 250px;"
                         />
                     </div>
@@ -673,7 +635,7 @@
                     <div>
                         <div class="actionTitle">ラットレースゾーンに降格しました！</div>
                         <img
-                        :src="'/image/action/dropFire_' + $parent.crntPlayer.sex + '.jpg'"
+                        :src="$parent.const.docPath + '/image/action/dropFire_' + $parent.crntPlayer.sex + '.jpg'"
                         style="width: 250px; height: 250px;"
                         />
                     </div>
@@ -688,7 +650,7 @@
                             <div v-for="player in $parent.players" >
                                 <div v-if="player.flgFire >= 1">
                                     <img 
-                                    :src="'/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
+                                    :src="$parent.const.docPath + '/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
                                     class="rounded-circle icon" 
                                     style="width:min(6vw, 30px); height:min(6vw, 30px); vertical-align: middle;" 
                                     />
@@ -711,7 +673,7 @@
         <div v-bind:class="[$parent.isProcessing ? 'scaleShow' : 'scaleHide']" 
         id="processing"
         >
-            <v-progress-circular indeterminate />Processing..
+            <v-progress-circular indeterminate />Processing.. {{ $parent.ret }}
         </div>
     </div>
 </template>

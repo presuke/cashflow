@@ -9,7 +9,7 @@
             <div v-bind:class="[player.flgFire == '1' ? 'scaleShow' : 'scaleHide']" class="fire">FIRE ZONE</div>
             <div class="player">
                 <img 
-                :src="'/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
+                :src="$parent.const.docPath + '/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
                 v-bind:class="[player.stress <= 3 ? 'fine' : '',
                                player.stress > 3 && player.stress <= 6 ? 'caution' : '',
                                player.stress > 6 && player.stress <= 9 ? 'denger' : '',
@@ -24,12 +24,12 @@
 
                 <div class="work">
                     <img 
-                    :src="'/image/work/' + player.work.img + '.png'"
+                    :src="$parent.const.docPath + '/image/work/' + player.work.img + '.png'"
                     class="rounded-circle icon" />
                     {{ player.work.type }}
                     <div class="salary">
                         <img 
-                        :src="'/image/status/salary.svg'"
+                        :src="$parent.const.docPath + '/image/status/salary.svg'"
                         class="rounded-circle icon" />
                         <div>
                             {{ player.work.salary.toLocaleString() }}
@@ -63,7 +63,7 @@
                 <div style="clear:left;">
                     <div class="parameter">
                         <img 
-                        src="/image/status/money.svg" 
+                        src="../../../image/status/money.svg" 
                         class="icon" 
                         style="filter: drop-shadow(2px 2px 2px #990);"
                         />
@@ -71,7 +71,7 @@
                     </div>
                     <div class="parameter">
                         <img 
-                        src="/image/status/stock.svg" 
+                        src="../../../image/status/stock.svg" 
                         class="icon" 
                         style="filter: drop-shadow(2px 2px 2px #66f);"
                          />
@@ -80,7 +80,7 @@
                     <div class="parameter"
                     v-bind:class="[$parent.scores[player.id + ''].loan > 0 ? 'valuePlus' : '',]">
                         <img 
-                        src="/image/status/bank.svg" 
+                        src="../../../image/status/bank.svg" 
                         class="icon" 
                         style="filter: drop-shadow(2px 2px 2px #c33);"
                         />
@@ -88,7 +88,7 @@
                     </div>
                     <div class="parameter">
                         <img 
-                        src="/image/status/estate.svg" 
+                        src="../../.../../../image/status/estate.svg" 
                         class="icon" 
                         style="filter: drop-shadow(2px 2px 2px #393);"
                         />

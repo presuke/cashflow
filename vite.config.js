@@ -9,6 +9,10 @@ export default defineConfig({
             host: '192.168.10.126'
         }
     },
+    base: './',
+    build: {
+        outDir: 'public/build',
+    },
     plugins: [
         laravel({
             input: [

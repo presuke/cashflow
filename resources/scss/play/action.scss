@@ -27,7 +27,7 @@
 	height:min(20vw, 100px);
 	width:min(24vw, 120px);
 	border-radius: 5px;
-	background-image:url('/image/cardDesign.jpg');
+	background-image:url('../../../image/cardDesign.jpg');
     background-size: 100% 100%;
     cursor:pointer;
 }
@@ -36,7 +36,7 @@
 }
 
 .action{
-	background-image:url('/image/cardDesign.jpg');
+	background-image:url('../../../image/cardDesign.jpg');
     background-size: 100% 100%;
     text-align:center;
 
@@ -45,14 +45,14 @@
         border-radius: 15px;
         width: 360px;
         height: 220px;
-        background-image:url('/image/cardBg.jpg');
+        background-image:url('../../../image/cardBg.jpg');
         background-size: cover;
         .frame{
             position: absolute;
             z-index: 1;
             width:100%;
             height:100%;
-            background-image: url('/image/frame.png');
+            background-image: url('../../../image/frame.png');
             background-size: 100% 100%;
             filter: drop-shadow(3px 3px 2px rgba(255, 255, 255, 0.9));
         }
@@ -61,8 +61,38 @@
             z-index: 0;
         }
     }
+    .workMale{
+        background-image: url('../../../image/action/work_male.png'); 
+        background-color:lightblue; 
+        text-align:center; 
+        width:100px; 
+        height:110px; 
+        float:left;
+        margin-left:50px;
+        padding-top:110px;
+    }
+    .workFmale{
+        background-image: url('../../../image/action/work_fmale.png'); 
+        background-color:lightblue; 
+        text-align:center; 
+        width:100px; 
+        height:110px; 
+        float:left;
+        margin-left:50px;
+        padding-top:110px;
+    }
+    .treat{
+        background-image: url('../../../image/action/vacation.png'); 
+        background-color:lightpink; 
+        text-align:center; 
+        width:100px; 
+        height:110px; 
+        float:right;
+        margin-right:50px;
+        padding-top:110px;
+    }
     .estate{
-        background-image: url('/image/action/estate.png');
+        background-image: url('../../../image/action/estate.png');
         background-position-x: center;
         background-size: contain;
         height:200px;
@@ -74,7 +104,7 @@
     }
     .stock{
         width:100px; 
-        background-image:url('/image/stock_bg.jpg'); 
+        background-image:url('../../../image/stock_bg.jpg'); 
         background-size: 100% 100%;
         background-repeat: no-repeat;
         border-radius: 5px;
@@ -109,7 +139,24 @@
             filter: drop-shadow(5px 5px 5px #aaa);
         }
     }
-
+    .lifelevelRise{
+        background-image: url('../../../image/action/lifelevelRise.png'); 
+        text-align:center; 
+        width:120px; 
+        height:100px; 
+        float:left;
+        margin-left:30px;
+        padding-top:70px;
+    }
+    .lifelevelDrop{
+        background-image: url('../../../image/action/lifelevelDrop.png'); 
+        text-align:center; 
+        width:120px; 
+        height:100px; 
+        float:right;
+        margin-right:30px;
+        padding-top:70px;
+    }
     .periodComplete{
         width:300px; 
         margin:0 auto; 
@@ -133,14 +180,14 @@
                 text-align: center;
                 background-position-x: center;
                 background-size: contain;
-                background-image: url('/image/action/trade_male.png');
+                background-image: url('../../../image/action/trade_male.png');
             }
             .fmale{
                 height:200px;
                 text-align: center;
                 background-position-x: center;
                 background-size: contain;
-                background-image: url('/image/action/trade_fmale.png');
+                background-image: url('../../../image/action/trade_fmale.png');
             }
         }
         .buyStock{
@@ -149,14 +196,14 @@
                 text-align: center;
                 background-position-x: center;
                 background-size: contain;
-                background-image: url('/image/action/stock_buy_male.png');
+                background-image: url('../../../image/action/stock_buy_male.png');
             }
             .fmale{
                 height:200px;
                 text-align: center;
                 background-position-x: center;
                 background-size: contain;
-                background-image: url('/image/action/stock_buy_fmale.png');
+                background-image: url('../../../image/action/stock_buy_fmale.png');
             }
         }
         .lost{
@@ -172,7 +219,7 @@
             }
         }
         .periodComplete{
-            background-image: url('/image/action/kessan.png');
+            background-image: url('../../../image/action/kessan.png');
             background-position-x: center;
             background-size: contain;
             > .sheet{
@@ -283,6 +330,7 @@
     font-family: 'Kosugi Maru', sans-serif;
     height:300px;
     width:100%;
+    overflow-y: scroll;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
 }
@@ -296,7 +344,7 @@
     cursor: pointer;
 }
 .win{
-    background-color: url('/image/fire.jpg');
+    background-color: url('../../../image/fire.jpg');
     padding-top:40px;
 }
 @keyframes fadeDownAnime{

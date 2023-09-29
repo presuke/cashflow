@@ -30,9 +30,9 @@ Route::prefix('/v1')->group(function () {
         Route::post('create', [PlayerV1::Class, 'create']);
     });
     Route::prefix('/play')->group(function () {
-        Route::get('login', [PlayV1::Class, 'login']);
+        Route::post('login', [PlayV1::Class, 'login']);
+        Route::post('action', [PlayV1::Class, 'action']);
         Route::get('getRoomStatus', [PlayV1::Class, 'getRoomStatus']);
-        Route::get('action', [PlayV1::Class, 'action']);
         Route::get('confirmAction', [PlayV1::Class, 'confirmAction']);
     });
 });

@@ -2,7 +2,6 @@
 import axios from 'axios';
 import Header from '../Header.vue';
 import Footer from '../Footer.vue';
-import Const from '../../js/const.js';
 
 export default {
 	components: {
@@ -64,7 +63,7 @@ export default {
 			this.form.player.roomid = 0;
 			this.errors = [];
 			axios
-				.get(Const.API_ROOT_PATH + '/api/v1/room/getAll', this.param)
+				.get('./api/v1/room/getAll', this.param)
 				.then((response) => {
 					this.isLoading = false;
 					try {
@@ -88,7 +87,7 @@ export default {
 			this.form.selection.works = [];
 			this.errors = [];
 			axios
-				.get(Const.API_ROOT_PATH + '/api/v1/work/getAll', this.param)
+				.get('./api/v1/work/getAll', this.param)
 				.then((response) => {
 					try {
 						if(response.data.error != undefined){
@@ -145,7 +144,7 @@ export default {
 				this.form.player = player;
 				this.modeView = 2;
 			}else{
-				location.href = '/play/' + player.id;
+				location.href = './play/' + player.id;
 			}
 		},
 		checkName(){
@@ -170,7 +169,7 @@ export default {
 				this.form.player.img = this.form.selection.imgs[this.form.player.imgSelected];
 				this.form.player.workid = this.form.selection.works[this.form.player.workidSelected].id;
 				axios
-				.post('/api/v1/player/create', this.form.player)
+				.post('./api/v1/player/create', this.form.player)
 				.then((response) => {
 					try {
 						if(response.data.player != undefined){
@@ -208,7 +207,7 @@ export default {
 		createRoom(){
 			this.create.form.step = 3;
 			axios
-			.post(Const.API_ROOT_PATH + '/api/v1/room/create', {
+			.post('./api/v1/room/create', {
 				parameter: this.create.form,
 			})
 			.then((response) => {
@@ -334,7 +333,7 @@ export default {
 								<div v-if="player.name != ''">
 									<div style="float: left;">
 										<img 
-										:src="'/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
+										:src="'./image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
 										class="rounded-circle"
 										Width="30"
 										Height="30"
@@ -347,7 +346,7 @@ export default {
 								<div v-else>
 									<div style="float: left;">
 										<img 
-										:src="'/image/avatar/random.png'" 
+										:src="'./image/avatar/random.png'" 
 										class="rounded-circle"
 										Width="30"
 										Height="30"
@@ -427,7 +426,7 @@ export default {
 								contain
 							>
 								<img 
-								:src="'/image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
+								:src="'./image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
 								class="rounded-circle"
 								/>
 							</v-carousel-item>
@@ -456,7 +455,7 @@ export default {
 								style="width:300px; padding:10px; margin: 0 auto;"
 							>
 								<div style="float:left;">
-									<img width="45" height="45" class="rounded-circle" :src="'/image/work/' + work.img + '.png'" />
+									<img width="45" height="45" class="rounded-circle" :src="'./image/work/' + work.img + '.png'" />
 								</div>
 								<div style="float:left;">
 									<div class="text-h4">{{work.type}}</div>
@@ -502,7 +501,7 @@ export default {
 						</v-card-title>
 						<v-card-text>
 							<img 
-								:src="'/image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
+								:src="'./image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
 								class="rounded-circle"
 								/>
 							<div>
@@ -533,7 +532,7 @@ export default {
 			x-large
 			rounded
 			color="deep-purple darken-1"
-			@click="create.flg = 0; loadRoom();"
+			@click="create.flg = 0; this.loadRoom();"
 		>
 			戻る
 		</v-btn>
