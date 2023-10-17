@@ -65,6 +65,65 @@ class Action
         $playerNum == $confirmedPlayerNum &&
         $existsAllConfirm == 0
       ) {
+
+        //資産の推移を記録
+        $crntPlayersAssets = DB::table('asset')->select(
+          'buy',
+          'type',
+          'has'
+        )->where(
+          ['roomid' => $crntPlayer['roomid'], 'playerid' => $crntPlayer['id']]
+        )->get();
+
+        $amountStock = 0;
+        $amountEstate = 0;
+        $amountLoan = 0;
+        $amountMoney = 0;
+        foreach ($crntPlayersAssets as $asset) {
+          if ($asset->type == 'stock') {
+            $amountStock += $asset->buy * $asset->has;
+          } else if ($asset->type == 'estate') {
+            $amountEstate += $asset->buy * $asset->has;
+          } else if ($asset->type == 'loan') {
+            $amountLoan += $asset->buy * $asset->has;
+          }
+        }
+
+        $player = DB::table('player')->select('money')->where([
+          'roomid' => $crntPlayer['roomid'],
+          'id' => $crntPlayer['id'],
+        ])->first();
+        $amountMoney = $player->money;
+
+        $existsTrans = DB::table('trans')->where([
+          'roomid' => $crntPlayer['roomid'],
+          'id' => $crntPlayer['id'],
+          'turn' => $crntPlayer['turn'],
+        ])->count();
+
+        if ($existsTrans == 0) {
+          DB::table('trans')->insert([
+            'roomid' => $crntPlayer['roomid'],
+            'playerid' => $crntPlayer['id'],
+            'turn' => $crntPlayer['turn'],
+            'money' => $amountMoney,
+            'stock' => $amountStock,
+            'estate' => $amountEstate,
+            'loan' => $amountLoan,
+          ]);
+        } else {
+          DB::table('trans')->where([
+            'roomid' => $crntPlayer['roomid'],
+            'id' => $crntPlayer['id'],
+            'turn' => $crntPlayer['turn'],
+          ])->update([
+            'money' => $amountMoney,
+            'stock' => $amountStock,
+            'estate' => $amountEstate,
+            'loan' => $amountLoan,
+          ]);
+        }
+
         DB::table('player')->where([
           'roomid' => $crntPlayer['roomid'],
           'id' => $crntPlayer['id'],
@@ -559,23 +618,23 @@ class Action
         if ($isRise) {
           $action['action'] = 'riseLifeLevel';
           if ($me->lifelevel < $mywork->lifelevelMax) {
-            $player = DB::table('player')->where(
+            DB::table('player')->where(
               [
                 'roomid' => $me->roomid,
                 'id' => $me->id,
               ]
             )->update(
               [
-                'lefelevel' => $me->lifelevel + 1,
+                'lifelevel' => $me->lifelevel + 1,
               ]
             );
             $parameter['result'] = 'success';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel + 1;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel + 1;
           } else {
             $parameter['result'] = 'faild';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel;
           }
         } else {
           $action['action'] = 'dropLifeLevel';
@@ -596,20 +655,20 @@ class Action
               ]
             );
             $parameter['result'] = 'success';
-            $parameter['lefelevel']['from'] = $lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel;
+            $parameter['lifelevel']['from'] = $lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel;
           } else {
             $parameter['result'] = 'faild';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel;
           }
         }
       } else {
         if ($isRise) {
           if ($me->lifelevel == 10) {
             $parameter['result'] = 'faild';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel;
           } else {
             DB::table('player')->where(
               [
@@ -622,14 +681,14 @@ class Action
               ]
             );
             $parameter['result'] = 'success';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel + 1;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel + 1;
           }
         } else {
           if ($me->lifelevel == 1) {
             $parameter['result'] = 'faild';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel;
           } else {
             DB::table('player')->where(
               [
@@ -642,8 +701,8 @@ class Action
               ]
             );
             $parameter['result'] = 'success';
-            $parameter['lefelevel']['from'] = $me->lifelevel;
-            $parameter['lefelevel']['to'] = $me->lifelevel - 1;
+            $parameter['lifelevel']['from'] = $me->lifelevel;
+            $parameter['lifelevel']['to'] = $me->lifelevel - 1;
           }
         }
       }
@@ -1199,7 +1258,7 @@ class Action
 
       //資産の40倍になったらFIRE / 100倍になったらWIN
       $flgFire = 0;
-      if ($me->money > $mywork->salary * 400) {
+      if ($me->money > $mywork->salary * 100) {
         $flgFire = 2;
       } else if ($me->money + $assetAmount > $mywork->salary * 40) {
         $flgFire = 1;

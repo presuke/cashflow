@@ -39,19 +39,19 @@
             transition: all 0.5s 0s ease;
         }
         > img.fine{
-            box-shadow: 0 0 5px lightgreen;
+            border:solid 2px lightgreen;
         }
         > img.caution{
-            box-shadow: 0 0 5px yellow;
+            border:solid 2px yellow;
         }
         > img.denger{
-            box-shadow: 0 0 5px orange;
+            border:solid 2px orange;
         }
         > img.out{
-            box-shadow: 0 0 5px red;
+            border:solid 2px red;
         }
         > img.die{
-            box-shadow: 0 0 5px darkred;
+            border:solid 2px darkred;
         }
         .name {
             font-family: 'Kosugi Maru', sans-serif;
@@ -169,21 +169,6 @@
                 height:min(12vw, 60px);
                 background-color: white;
                 transition: all 0.5s 0s ease;
-            }
-            > img.fine{
-                box-shadow: 0 0 5px lightgreen;
-            }
-            > img.caution{
-                box-shadow: 0 0 5px yellow;
-            }
-            > img.denger{
-                box-shadow: 0 0 5px orange;
-            }
-            > img.out{
-                box-shadow: 0 0 5px red;
-            }
-            > img.die{
-                box-shadow: 0 0 5px darkred;
             }
             .name {
                 font-family: 'Kosugi Maru', sans-serif;

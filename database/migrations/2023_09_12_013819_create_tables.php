@@ -18,6 +18,7 @@ return new class extends Migration
         Schema::dropIfExists('asset');
         Schema::dropIfExists('work');
         Schema::dropIfExists('history');
+        Schema::dropIfExists('trans');
 
         Schema::create('room', function (Blueprint $table) {
             $table->increments('id');
@@ -56,6 +57,19 @@ return new class extends Migration
             $table->integer('sell')->default(0)->comment('売却価格(既返済額)');
             $table->decimal('return')->default(0)->comment('リターン');
             $table->integer('has')->default(0)->comment('所有数');
+            $table->datetime('ins')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
+            $table->datetime('upd')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->comment('更新日時');
+        });
+
+        Schema::create('trans', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('roomid')->comment('部屋ID');
+            $table->integer('playerid')->comment('プレイヤーID');
+            $table->integer('turn')->default(0)->comment('資金');
+            $table->integer('money')->default(0)->comment('資金');
+            $table->integer('stock')->default(0)->comment('株式');
+            $table->integer('estate')->default(0)->comment('不動産');
+            $table->integer('loan')->default(0)->comment('ローン');
             $table->datetime('ins')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
             $table->datetime('upd')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->comment('更新日時');
         });
@@ -144,5 +158,6 @@ return new class extends Migration
         Schema::dropIfExists('asset');
         Schema::dropIfExists('work');
         Schema::dropIfExists('history');
+        Schema::dropIfExists('trans');
     }
 };

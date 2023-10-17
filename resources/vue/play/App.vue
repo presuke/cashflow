@@ -93,11 +93,50 @@ export default {
 				displayDialog: false,
 			},
 		},
+		se: {
+			Katakata: null,
+			Count:null,
+			Slide: null,
+			Error: null,
+			Success: null,
+			Action: null,
+			DropLifelevel: null,
+			RiseLifelevel: null,
+			BuyAsset: null,
+			Trade: null,
+			Treat: null,
+			Work: null,
+			Sic: null,
+			NoTrade: null,
+			Period: null,
+			RiseFire: null,
+			DropFire: null,
+			Win: null,
+		},
 		ret:{}
 	}),
 	created() {
 		const segments = window.location.pathname.split('/');
 		
+		this.se.Katakata = new Audio(seKatakata);
+		this.se.Count = new Audio(seCount);
+		this.se.Slide = new Audio(seSlide);
+		this.se.Error = new Audio(seError);
+		this.se.Success = new Audio(seSuccess);
+		this.se.Action = new Audio(seAction);
+		this.se.DropLifelevel = new Audio(seDropLifelevel);
+		this.se.RiseLifelevel = new Audio(seRiseLifelevel);
+		this.se.BuyAsset = new Audio(seBuyAsset);
+		this.se.Trade = new Audio(seTrade);
+		this.se.Treat = new Audio(seTreat);
+		this.se.Work = new Audio(seWork);
+		this.se.Sic = new Audio(seSic);
+		this.se.NoTrade = new Audio(seNoTrade);
+		this.se.Period = new Audio(sePeriod);
+		this.se.RiseFire = new Audio(seRiseFire);
+		this.se.DropFire = new Audio(seDropFire);
+		this.se.Win = new Audio(seWin);
+
 		this.const.docPath = window.location.origin;
 		for(let i=1; i<segments.length-2; i++){
 			this.const.docPath += '/' + segments[i];
@@ -114,6 +153,9 @@ export default {
 		for(let i=500; i<=10000; i+=500){
 			this.form.banking.selection.push(i);
 		}
+
+		//se
+		this.se.count = new Audio(seKatakata);
 
 		this.refleshStatus();
 	},
@@ -237,71 +279,68 @@ export default {
 			const key = this.crntPlayer.id + ':' + this.action.action;
 			if(this.beforeStatus != key){
 				this.beforeStatus = key;
-				let se = new Audio(seSlide);
 				switch(this.action.action){
 					case 'work':{
-						se = new Audio(seWork);
+						this.se.Work.play();
 						break;
 					}
 					case 'sic':{
-						se = new Audio(seSic);
+						this.se.Sic.play();
 						break;
 					}
 					case 'treat':{
-						se = new Audio(seTreat);
+						this.se.Treat.play();
 						break;
 					}
 					case 'dropLifeLevel':{
-						se = new Audio(seDropLifelevel);
+						this.se.DropLifelevel.play();
 						break;
 					}
 					case 'riseLifeLevel':{
-						se = new Audio(seRiseLifelevel);
+						this.se.RiseLifelevel.play();
 						break;
 					}
 					case 'trade':{
-						se = new Audio(seTrade);
+						this.se.Trade.play();
 						break;
 					}
 					case 'buyEstate':{
-						se = new Audio(seBuyAsset);
+						this.se.BuyAsset.play();
 						break;
 					}
 					case 'buyStock':{
-						se = new Audio(seBuyAsset);
+						this.se.BuyAsset.play();
 						break;
 					}
 					case 'lostEstate':{
-						se = new Audio(seNoTrade);
+						this.se.NoTrade.play();
 						break;
 					}
 					case 'lostStock':{
-						se = new Audio(seNoTrade);
+						this.se.NoTrade.play();
 						break;
 					}
 					case 'riseZone':{
-						se = new Audio(seRiseFire);
+						this.se.RiseFire.play();
 						break;
 					}
 					case 'dropZone':{
-						se = new Audio(seDropFire);
+						this.se.DropFire.play();
 						break;
 					}
 					case 'win':{
-						se = new Audio(seWin);
-						break;
-					}
-					case 'periodComplete':{
+						this.se.Win.play();
 						break;
 					}
 					default:{
 						if(this.crntPlayer.turn % this.room.period == 0){
-							se = new Audio(sePeriod);
+							this.se.Period.play();
+						}else{
+							this.se.Slide.play();
 						}
 						break;
 					}
 				}
-				se.play();
 			}
 		},
 		updateScore(){
@@ -322,14 +361,13 @@ export default {
 					keyParameters.forEach(keyParameter =>{
 						if(player[keyParameter] != this.scores[player.id][keyParameter]){
 							let timerAnimation = setInterval(() =>{
-								let se = new Audio(seCount);
-								se.play();
 								this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
-								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10)
+								this.se.Katakata.play();
+								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10){
 									this.scores[player.id][keyParameter] = player[keyParameter];
-
-								if(this.scores[player.id][keyParameter] == player[keyParameter]){
 									clearInterval(timerAnimation);
+									this.se.Katakata.pause();
+							        this.se.Katakata.currentTime = 0;
 								}
 							},100);
 						}
@@ -343,12 +381,10 @@ export default {
 		act(actionMode){
 			if(this.crntPlayer.id != this.me.id){
 				this.actionResult.error = 'あなたのターンではありません。';
-				let se = new Audio(seError);
-				se.play();
+				this.se.Error.play();
 				return;
 			}
-			let se = new Audio(seAction);
-			se.play();
+			this.se.Action.play();
 			this.isProcessing = true;
 			this.reflesh.count = 0;
 			this.actionResult.error = '';
@@ -390,8 +426,7 @@ export default {
 		},
 		confirm(){
 			this.actionResult.error = '';
-			let se = new Audio(seAction);
-			se.play();
+			this.se.Action.play();
 
 			axios
 			.post(this.const.docPath + '/api/v1/play/action', {
@@ -421,12 +456,10 @@ export default {
 		doBanking(target){
 			if(this.crntPlayer.id != this.me.id){
 				this.actionResult.error = 'あなたのターンではありません。';
-				let se = new Audio(seError);
-				se.play();
+				this.se.Error.play();
 				return;
 			}
-			let se = new Audio(seAction);
-			se.play();
+			this.se.Action.play();
 			if(target > 0){
 				this.form.banking.target = target;
 				this.form.banking.amount = 0;
@@ -438,12 +471,10 @@ export default {
 				this.form.banking.message = '';
 				if(this.form.banking.amount == 0){
 					this.form.banking.error = '借入額を決めてください。';
-					let se = new Audio(seError);
-					se.play();
+					this.se.Error.play();
 				}else if(this.form.banking.target > this.crntPlayer.money + this.form.banking.amount){
 					this.form.banking.error = this.form.banking.amount.toLocaleString() + '借入れても物件価格に到達しません。';
-					let se = new Audio(seError);
-					se.play();
+					this.se.Error.play();
 				}else{
 					axios
 					.post(this.const.docPath + '/api/v1/play/action', {
@@ -458,13 +489,11 @@ export default {
 						try {
 							if(response.data.error != undefined){
 								this.form.banking.error = response.data.error;
-								let se = new Audio(seError);
-								se.play();
+								this.se.Error.play();
 							}else{
 								this.form.banking.message = response.data.message;
 								this.refleshStatus();
-								let se = new Audio(seSuccess);
-								se.play();
+								this.se.Success.play();
 							}
 						} catch (e) {
 							this.errors = e;
@@ -478,8 +507,7 @@ export default {
 		},
 		login(){
 			this.form.login.error = '';
-			let se = new Audio(seAction);
-			se.play();
+			this.se.Action.play();
 
 			axios
 			.post(this.const.docPath + '/api/v1/play/login', {
@@ -494,18 +522,15 @@ export default {
 						this.form.login.success = true;
 						this.form.login.displayDialog = false;
 						this.refleshStatus();
-						let se = new Audio(seSuccess);
-						se.play();
+						this.se.Success.play();
 					}
 					else if(response.data.error != undefined){
 						this.form.login.displayDialog = true;
 						this.form.login.error = response.data.error;
-						let se = new Audio(seError);
-						se.play();
+						this.se.Error.play();
 					}else{
 						this.errors.push('特定できないエラー');
-						let se = new Audio(seError);
-						se.play();
+						this.se.Error.play();
 					}
 				} catch (e) {
 					this.errors = e;
@@ -518,12 +543,10 @@ export default {
 		logout(){
 			localStorage.setItem(this.const.authTokenName, '');
 			this.refleshStatus();
-			let se = new Audio(seAction);
-			se.play();
+			this.se.Action.play();
 		},
 		changeStockHas(stock, num){
-			let se = new Audio(seCount);
-			se.play();
+			this.se.Count.play();
 
 			if(num > 0 || stock.has != 0){
 				stock.has += num;
@@ -711,13 +734,43 @@ export default {
 	>
 		<v-card width="320" height="400">
 			<v-card-text style="overflow-y: auto;">
-				<div>
-					<img 
-                            src="../../image/github-mark.svg" 
-                            class="icon" 
-                            style="filter: drop-shadow(2px 2px 2px #66c);"
-                            />https://github.com/renoneve/cashflow
+				<div style="font-size:smaller;">
+					<h2>素材提供</h2>
+					<ul style="margin-left:20px;">
+						<li>
+							<a href="https://blog.goo.ne.jp/akarise" target="_blank">ゆうひな様</a>
+						</li>
+						<li>
+							ステータスアイコン<a href="https://icooon-mono.com/" target="_blank">モノアイコン</a>
+						</li>
+						<li>
+							アクションイラスト：<a href="https://www.irasutoya.com/" target="_blank">いらすとや様</a>
+						</li>
+						<li>
+							効果音：<a href="https://soundeffect-lab.info/" target="_blank">効果音ラボ様</a>
+						</li>
+						<li>
+							画像生成AI：<a href="https://www.bing.com/images/create?FORM=GDPCLS" target="_blank">Bing Image Creator</a>
+						</li>
+					</ul>
+					<div style="font-size:smaller;">
+						※素敵な素材、ツールのご提供に、感謝して使わせていただいております。
+					</div>
+					<h2>ソース</h2>
+					<div>
+						<img 
+						src="../../image/github-mark.svg" 
+						class="icon" 
+						style="filter: drop-shadow(2px 2px 2px #66c);width:30px;height:30px;"
+						/>
+						<a href="https://github.com/renoneve/cashflow" target="_blank">
+							https://github.com/renoneve/cashflow
+						</a>
+						<div style="font-size:smaller;">
+							※vue+laravel勉強目的で作成したものです。非効率な記述や細かな不具合などあるかもしれません。
 						</div>
+					</div>
+				</div>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>

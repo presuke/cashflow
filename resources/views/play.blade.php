@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Cash Flow</title>
+  <title>人狼</title>
   @vite(['resources/css/app.css', 'resources/js/play/app.js'])
+  <script src="//unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
   <style>
     body {
       overflow-y: hidden;
