@@ -28,10 +28,10 @@ export default {
 				roomid: 0,
 				sex: 'male',
 				imgSelected: 0,
-				img: 0,
+				img: 1,
 				name: '',
 				workidSelected: 0,
-				workid: 0,
+				workid: 1,
 				pass1: '',
 				pass2: '',
 				color: 'white',
@@ -141,7 +141,8 @@ export default {
 		playGame(player){
 			if(player.name == ''){
 				player.sex = 'male';
-				player.img = 0;
+				player.imgSelected = 0;
+				player.workidSelected = 0;
 				player.pass = '';
 				this.form.player = player;
 				this.modeView = 2;
@@ -287,7 +288,7 @@ export default {
 		</div>
 		<v-container>
 			<!-- 部屋一覧-->
-			<v-row v-for="room in rooms" :key="id" v-if="!isLoading">
+			<v-row v-for="room in rooms" :key="id" v-bind:class="[!isLoading ? 'scaleShow' : 'scaleHide']">
 				<v-col
 					style="
 						padding: 10px;
@@ -300,7 +301,7 @@ export default {
 					<div style="float: right;">
 						<span
 						v-if="this.form.player.roomid == room.room.id"
-						style="border-radius:5px; padding:5px; background-color:lightgreen; color:white;"
+						style="border-radius:5px; padding:5px; background-color:lightpink; color:white;"
 						>
 							入室中
 						</span>
@@ -309,7 +310,7 @@ export default {
 					<br style="clear: left" />
 				</v-col>
 			</v-row>
-			<div v-if="isLoading">
+			<div v-bind:class="[isLoading ? 'scaleShow' : 'scaleHide']">
 				<v-progress-circular color="blue-lighten-3" model-value="20" :size="77"></v-progress-circular>
 				loading data...
 			</div>
@@ -317,206 +318,200 @@ export default {
 
 
 		<!-- Entry Room -->
-		<Transition name="fade">
-			<div v-if="modeView == 1" style="margin:10px;">
-				<v-container>
-					<v-row style="margin: 0 10;">
-						プレイするプレイヤーを選んでください。
-					</v-row>
-					<v-row v-for="player in playersOnRoom" :key="id">
-						<v-col
+		<div v-bind:class="[modeView == 1 ? 'scaleShow' : 'scaleHide']" style="margin:10px;">
+			<v-container>
+				<v-row style="margin: 0 10;">
+					プレイするプレイヤーを選んでください。
+				</v-row>
+				<v-row v-for="player in playersOnRoom" :key="id">
+					<v-col
+						style="
+							border-bottom:solid thin lightgray;
+							padding: 10px;
+						"
+					>
+						<div v-if="player.name != ''">
+							<div style="float: left;">
+								<img 
+								:src="'../image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
+								class="rounded-circle"
+								Width="30"
+								Height="30"
+								/>
+							</div>
+							<div style="float: left;">
+								{{ player.name }}&nbsp;
+							</div>
+						</div>
+						<div v-else>
+							<div style="float: left;">
+								<img 
+								:src="'../image/avatar/random.png'" 
+								class="rounded-circle"
+								Width="30"
+								Height="30"
+								/>
+							</div>
+							<div style="float: left;">
+								プレイヤー未作成
+							</div>
+						</div>
+						<div
 							style="
-								border-bottom:solid thin lightgray;
-								padding: 10px;
+								float: right;
 							"
 						>
-							<div v-if="player.name != ''">
-								<div style="float: left;">
-									<img 
-									:src="'../image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
-									class="rounded-circle"
-									Width="30"
-									Height="30"
-									/>
-								</div>
-								<div style="float: left;">
-									{{ player.name }}&nbsp;
-								</div>
-							</div>
-							<div v-else>
-								<div style="float: left;">
-									<img 
-									:src="'../image/avatar/random.png'" 
-									class="rounded-circle"
-									Width="30"
-									Height="30"
-									/>
-								</div>
-								<div style="float: left;">
-									プレイヤー未作成
-								</div>
-							</div>
-							<div
-								style="
-									float: right;
-								"
-							>
-								<v-btn @click="playGame(player)">
-									<span v-if="player.name != ''">
-										参加
-									</span>
-									<span v-else>
-										プレイヤー作成
-									</span>
-								</v-btn>
-							</div>
-							<br style="clear: left" />
-						</v-col>
-					</v-row>
-				</v-container>
-			</div>
-		</Transition>
+							<v-btn @click="playGame(player)">
+								<span v-if="player.name != ''">
+									参加
+								</span>
+								<span v-else>
+									プレイヤー作成
+								</span>
+							</v-btn>
+						</div>
+						<br style="clear: left" />
+					</v-col>
+				</v-row>
+			</v-container>
+		</div>
 
 		<!-- setting Player -->
-		<Transition name="fade">
-			<div v-if="modeView == 2" style="margin:10px;">
-				<div>
-					プレイヤーの設定をしてください。
-				</div>
-				<v-text-field
-					label="お名前"
-					v-model="this.form.player.name"
-					v-on:change="checkName"
-					placeholder="お名前を入力してください。"
-				>
-				</v-text-field>
-				<v-text-field
-					label="パスワード"
-					type="password"
-					v-model="this.form.player.pass"
-					hint="Enter your password to access this website"
-				></v-text-field>
-				<div v-for="n in 10" style="float:left; margin:5px;">
-					<v-btn @click="this.form.player.pass += (n%10) + ''">{{ n%10 }}</v-btn>
-				</div>
-				<v-spacer></v-spacer>
-				<div style="float:left; margin:5px;">
-					<v-btn @click="this.form.player.pass = ''">Clear</v-btn>
-				</div>
-				<br style="clear: both;" />
-				<v-select
-					label="性別"
-					v-model="form.player.sex"
-					:items="form.selection.sex"
-				></v-select>
-				<div style="margin: 10px;">
-					アバターアイコンを選択してください。
-				</div>
-				<div style="width:100%; height:50%; max-height:300px; text-align:center;">
-					<v-carousel 
-					:continuous="false"
-					v-model="form.player.imgSelected"
-					width="200"
-					height="200"
-					class="rounded-circle"
-					hide-delimiters
-					>
-						<v-carousel-item
-							v-for="img in form.selection.imgs"
-							contain
-						>
-							<img 
-							:src="'../image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
-							class="rounded-circle"
-							/>
-						</v-carousel-item>
-					</v-carousel>
-				</div>
-				<div style="margin: 10px;">
-					仕事を選んで下さい。
-				</div>
-				<v-carousel
+		<div v-bind:class="[modeView == 2 ? 'scaleShow' : 'scaleHide']" style="margin:10px;">
+			<div>
+				プレイヤーの設定をしてください。
+			</div>
+			<v-text-field
+				label="お名前"
+				v-model="this.form.player.name"
+				v-on:change="checkName"
+				placeholder="お名前を入力してください。"
+			>
+			</v-text-field>
+			<v-text-field
+				label="パスワード"
+				type="password"
+				v-model="this.form.player.pass"
+				hint="Enter your password to access this website"
+			></v-text-field>
+			<div v-for="n in 10" style="float:left; margin:5px;">
+				<v-btn @click="this.form.player.pass += (n%10) + ''">{{ n%10 }}</v-btn>
+			</div>
+			<v-spacer></v-spacer>
+			<div style="float:left; margin:5px;">
+				<v-btn @click="this.form.player.pass = ''">Clear</v-btn>
+			</div>
+			<br style="clear: both;" />
+			<v-select
+				label="性別"
+				v-model="form.player.sex"
+				:items="form.selection.sex"
+			></v-select>
+			<div style="margin: 10px;">
+				アバターアイコンを選択してください。
+			</div>
+			<div style="width:100%; height:50%; max-height:300px; text-align:center;">
+				<v-carousel 
 				:continuous="false"
-				v-model="form.player.workidSelected"
-				show-arrows="true"
-				hide-delimiters
+				v-model="form.player.imgSelected"
+				width="200"
 				height="200"
-				width="400"
+				class="rounded-circle"
+				hide-delimiters
 				>
-
 					<v-carousel-item
-							v-for="work in form.selection.works"
-							:key="id"
-							style="text-align:center; background-color:red;"
-						>
-						<v-card
-							outlined
-							shaped
-							style="width:300px; padding:10px; margin: 0 auto;"
-						>
-							<div style="float:left;">
-								<img width="45" height="45" class="rounded-circle" :src="'../image/work/' + work.img + '.png'" />
-							</div>
-							<div style="float:left;">
-								<div class="text-h4">{{work.type}}</div>
-							</div>
-							<div style="clear:left; margin-left:10px;">
-								<div>
-									給料：{{ work.salary }}
-								</div>
-								<div>生活水準</div>
-								<ul style="margin-left:10px;">
-									<li>
-										最低：{{ work.lifelevelMin }}
-									</li>
-									<li>
-										最高：{{ work.lifelevelMax }}
-									</li>
-								</ul>
-							</div>
-						</v-card>
+						v-for="img in form.selection.imgs"
+						contain
+					>
+						<img 
+						:src="'../image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
+						class="rounded-circle"
+						/>
 					</v-carousel-item>
 				</v-carousel>
-				<div style="maring-top:10px;" />
-				<div style="text-align:center; margin:auto;">
-					<v-btn
-					class="text-h4"
-					elevation="30"
-					height="60"
-					rounded
-					color="deep-purple darken-1"
-					@click="makePlayer()">これで決まり！！</v-btn>
-				</div>
 			</div>
-		</Transition>
+			<div style="margin: 10px;">
+				仕事を選んで下さい。
+			</div>
+			<v-carousel
+			:continuous="false"
+			v-model="form.player.workidSelected"
+			show-arrows="true"
+			hide-delimiters
+			height="200"
+			width="400"
+			>
+
+				<v-carousel-item
+						v-for="work in form.selection.works"
+						:key="id"
+						style="text-align:center; background-color:red;"
+					>
+					<v-card
+						outlined
+						shaped
+						style="width:300px; padding:10px; margin: 0 auto;"
+					>
+						<div style="float:left;">
+							<img width="45" height="45" class="rounded-circle" :src="'../image/work/' + work.img + '.png'" />
+						</div>
+						<div style="float:left;">
+							<div class="text-h4">{{work.type}}</div>
+						</div>
+						<div style="clear:left; margin-left:10px;">
+							<div>
+								給料：{{ work.salary }}
+							</div>
+							<div>生活水準</div>
+							<ul style="margin-left:10px;">
+								<li>
+									最低：{{ work.lifelevelMin }}
+								</li>
+								<li>
+									最高：{{ work.lifelevelMax }}
+								</li>
+							</ul>
+						</div>
+					</v-card>
+				</v-carousel-item>
+			</v-carousel>
+			<div style="maring-top:10px;" />
+			<div style="text-align:center; margin:auto;">
+				<v-btn
+				class="text-h4"
+				elevation="30"
+				height="60"
+				rounded
+				color="deep-purple darken-1"
+				@click="makePlayer()">これで決まり！！</v-btn>
+			</div>
+		</div>
 
 		<!-- created Player -->
-		<Transition name="fade">
-			<div v-if="modeView == 3">
-				<v-card>
-					<v-card-title
-					color="primary"
-					dark>
-					プレイヤー作成完了
-					</v-card-title>
-					<v-card-text>
-						<img 
-							:src="'../image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
-							class="rounded-circle"
-							/>
-						<div>
-							{{this.form.player.name}}さん、ようこそ！
-						</div>
-					</v-card-text>
-					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn @click="playGame(this.form.player)">
-							ゲームに参加
-						</v-btn>
-					</v-card-actions>
-				</v-card>
-			</div>
-		</Transition>
+		<div v-bind:class="[modeView == 3 ? 'scaleShow' : 'scaleHide']">
+			<v-card>
+				<v-card-title
+				color="primary"
+				dark>
+				プレイヤー作成完了
+				</v-card-title>
+				<v-card-text>
+					<img 
+						:src="'../image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
+						class="rounded-circle"
+						/>
+					<div>
+						{{this.form.player.name}}さん、ようこそ！
+					</div>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn @click="playGame(this.form.player)">
+						ゲームに参加
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</div>
 
 		<!-- Error -->
 		<ul class="error">
