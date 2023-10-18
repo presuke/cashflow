@@ -172,7 +172,7 @@ export default {
 				this.form.player.img = this.form.selection.imgs[this.form.player.imgSelected];
 				this.form.player.workid = this.form.selection.works[this.form.player.workidSelected].id;
 				axios
-				.post('./api/v1/player/create', this.form.player)
+				.post('../api/v1/player/create', this.form.player)
 				.then((response) => {
 					try {
 						if(response.data.player != undefined){
@@ -210,7 +210,7 @@ export default {
 		createRoom(){
 			this.create.form.step = 3;
 			axios
-			.post('./api/v1/room/create', {
+			.post('../api/v1/room/create', {
 				parameter: this.create.form,
 			})
 			.then((response) => {
