@@ -34,5 +34,7 @@ Route::prefix('/v1')->group(function () {
         Route::post('action', [PlayV1::Class, 'action']);
         Route::get('getRoomStatus', [PlayV1::Class, 'getRoomStatus']);
         Route::get('confirmAction', [PlayV1::Class, 'confirmAction']);
+        Route::get('confirmAction', [PlayV1::Class, 'confirmAction']);
+        Route::get('getTrans', [PlayV1::Class, 'getTrans']);
     });
 });

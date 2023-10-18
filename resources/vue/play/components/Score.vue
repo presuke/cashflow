@@ -30,6 +30,7 @@
                                player.stress > 9 && player.stress <= 12 ? 'out' : '',
                                player.stress > 12 ? 'die' : '',]"
                 class="rounded-circle icon"
+                @click="$parent.viewTrans(player)"
                 />
                 <div style="float:left;">
                     <div class="name">{{ player.name }}</div>

@@ -139,6 +139,45 @@ class Play extends BaseController
         return response()->json($ret);
     }
 
+
+    public function getTrans(Request $request)
+    {
+        try {
+            $ret = [];
+            $ret['code'] = 0;
+            $params = $request->all();
+            try {
+                $playerid = $params['playerid'];
+
+                if (isset($params['authtoken'])) {
+                    $authToken = $params['authtoken'];
+                } else {
+                    $authToken = '';
+                }
+
+                $checkStatus = Auth::checkAcuthToken($playerid, $authToken);
+                if ($checkStatus == 0) {
+
+                    //自プレイヤー
+                    $ret['trans'] = DB::table('trans')->where(
+                        [
+                            'playerid' => $playerid,
+                        ]
+                    )->get();
+                } else {
+                    $ret['code'] = $checkStatus;
+                }
+            } catch (\Exception $ex) {
+                $ret['code'] = 99;
+                $ret['errors'][] = $ex;
+            }
+        } catch (\Exception $ex) {
+            $ret['code'] = 99;
+            $ret['errors'][] = $ex;
+        }
+        return response()->json($ret);
+    }
+
     /**
      * 現状の部屋の状態.
      *

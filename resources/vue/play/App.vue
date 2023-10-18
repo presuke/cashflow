@@ -505,6 +505,23 @@ export default {
 				}
 			}
 		},
+		viewTrans(player){
+			axios
+			.get(this.const.docPath + '/api/v1/play/getTrans', {
+				playerid: player.id,
+				authtoken: this.authtoken,
+			})
+			.then((response) => {
+				try {
+					console.log(response);
+				} catch (e) {
+					this.errors = e;
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		},
 		login(){
 			this.form.login.error = '';
 			this.se.Action.play();
