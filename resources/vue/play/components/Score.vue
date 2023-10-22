@@ -58,19 +58,24 @@
                         生活水準
                     </div>
                     <div style="float:left; font-family: 'Shrikhand', cursive;">
-                        <span v-if="player.lifelevel <= 2">
+                        <span v-if="player.lifelevel <= 2"
+                        class="verylow">
                             Very Low
                         </span>
-                        <span v-else-if="player.lifelevel <= 4">
+                        <span v-else-if="player.lifelevel <= 4"
+                        class="low">
                             Low
                         </span>
-                        <span v-else-if="player.lifelevel <= 6">
+                        <span v-else-if="player.lifelevel <= 6"
+                        class="middle">
                             Middle
                         </span>
-                        <span v-else-if="player.lifelevel <= 8">
+                        <span v-else-if="player.lifelevel <= 8"
+                        class="high">
                             High
                         </span>
-                        <span v-else="">
+                        <span v-else=""
+                        class="gorgeous">
                             Gorgeous
                         </span>
                     </div>

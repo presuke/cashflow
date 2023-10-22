@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Carbon\Carbon;
 use DB;
 
 class Action
@@ -16,7 +17,6 @@ class Action
       $parameter['crntPlayerRoomid'] = $crntPlayer['roomid'];
       $parameter['crntPlayerid'] = $crntPlayer['id'];
       $parameter['crntPlayerTurn'] = $crntPlayer['turn'];
-
 
       //既にConfirm済みか？
       $existsMyConfirm = DB::table('history')->where(
@@ -753,6 +753,7 @@ class Action
       //生活水準
       //FIREでなければ職業の上限まで、相応の生活。
       //FIREであれば必ず上げる。
+      $parameter['lifelevelLast'] = $me->lifelevel;
       if ($me->flgFire == 0) {
         $parameter['lifelevel'] = $me->lifelevel + floor($mywork->vanity / 100);
         $rand = rand(1, 100);
@@ -841,6 +842,19 @@ class Action
         ]
       );
 
+      //生活水準が上がったならその記録
+      if ($parameter['lifelevel'] > $me->lifelevel) {
+        $dt = Carbon::now();
+        $dt->subSecond(5);
+        DB::table('history')->insert([
+          'roomid' => $me->roomid,
+          'playerid' => $me->id,
+          'turn' => $me->turn,
+          'action' => 'riseLifeLevel',
+          'parameter' => json_encode($parameter),
+          'ins' => $dt->format('Y-m-d H:i:s'),
+        ]);
+      }
       //history
       DB::table('history')->insert([
         'roomid' => $me->roomid,
@@ -877,10 +891,30 @@ class Action
         'loan'
       )->count();
 
+      //プレイヤーの一個前のアクションを見る
+      $myAction = DB::table('history')->where(
+        ['roomid' => $me->roomid, 'playerid' => $me->id, 'turn' => $me->turn - 1]
+      )->where(
+        'action',
+        '<>',
+        'confirm'
+      )->where(
+        'action',
+        '<>',
+        'confirmAll'
+      )->where(
+        'action',
+        '<>',
+        'drowCard'
+      )->first();
+
       while (true) {
         //ランダム変数
         $card = rand(0, 99);
+        //売る資産がないのに資産売却は出さない
         if ($myAssetsCount == 0 && $card >= 70 && $card < 80) {
+          //生活水準の上げ下げを連続して出さない
+        } else if ($myAction->action == 'dropLifeLevel' || $myAction->action == 'riseLifeLevel' && $card >= 80 && $card < 95) {
         } else {
           break;
         }

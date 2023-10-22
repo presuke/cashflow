@@ -49,6 +49,11 @@ export default {
 			}, //カンマを追加
 			error:'',
 		},
+		confirmRemoveRoom:{
+			show: false,
+			room: {},
+			message: '',
+		},
 	}),
 	created: function () {
 		this.loadRooms();
@@ -226,8 +231,33 @@ export default {
 				this.create.form.step = 2;
 			});
 		},
-		returnPage(){
-
+		removeRoom(room, confirmed){
+			if(!confirmed){
+				this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」を削除します。よろしいですか？';
+				if(room.players[0].turn > 1){
+					this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」はプレイ中で、現在' + room.players[0].turn + 'ターン目のようです。本当に削除しますか？';
+				}
+				this.confirmRemoveRoom.room = room.room;
+				this.confirmRemoveRoom.show = true;
+				return;
+			}
+			axios
+			.delete('../api/v1/room/remove', {
+				data: {
+					roomid: room.id,
+				},
+			})
+			.then((response) => {
+				if(response.data.code == 0){
+					this.confirmRemoveRoom.show = false;
+					this.loadRooms();
+				}else{
+					this.confirmRemoveRoom.message = 'エラーが発生しました。エラーコード：' + response.data.code;
+				}
+			})
+			.catch((err) => {
+				this.confirmRemoveRoom.message = 'エラーが発生しました。エラー：' + err.message;
+			});
 		},
 		checkString(inputdata) {
 			var regExp = /^[a-zA-Z0-9_]*$/;
@@ -239,6 +269,16 @@ export default {
 				? (booleanLength = true)
 				: (booleanLength = false);
 			return booleanLength;
+		},
+		askConfirm(message) {
+			this.confirm.show = true;
+			this.confirm.messag = message;
+			return new Promise(resolve =>
+				this.$once('answerdConfirm', confirmValue => {
+					this.confirm.show = false;
+					resolve(confirmValue);
+				})
+		    );
 		},
 	},
 };
@@ -306,6 +346,7 @@ export default {
 							入室中
 						</span>
 						<v-btn v-else @click="entryRoom(room)">入室</v-btn>
+						<v-btn @click="removeRoom(room, false)">削除</v-btn>
 					</div>
 					<br style="clear: left" />
 				</v-col>
@@ -588,6 +629,36 @@ export default {
 			{{ create.error }}
 		</div>
 	</v-card>
+
+	<!--確認ダイアログ-->
+	<v-dialog 
+	v-model="this.confirmRemoveRoom.show"
+	transition="dialog-top-transition"
+	max-width="400"
+	>
+		<v-card width="320" height="400">
+			<v-card-text style="overflow-y: auto;">
+				{{ this.confirmRemoveRoom.message }}
+			</v-card-text>
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="removeRoom(this.confirmRemoveRoom.room, true);"
+				>
+					はい
+				</v-btn>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="this.confirmRemoveRoom.show=false;"
+				>
+					いいえ
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 	<VueQrcode :value="url" :options="{ width: 200 }" />
 	<footer>
 		<Footer></Footer>

@@ -44,7 +44,26 @@ footer{
     background-image: url('../../image/bg.jpg');
     background-size: cover;
 }
-
+.scaleShow{
+	transition: all 0.5s 0s ease;
+	transform:scale(1.0,1.0);
+}
+.scaleHide{
+	transition: all 0.5s 0s ease;
+	transform:scale(1.0,0.0);
+	position: absolute;
+	transform-origin-y: 0px;
+}
+.graph_wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .graph {
+    width: 100%;
+    height: auto;
+    /* width: 200px; widthを指定するとカッチリ指定できる*/
+  }
 .circles{
     position: relative;
     top: -100vh;

@@ -97,6 +97,41 @@
         margin-top:-10px;
         font-family: 'Shrikhand', cursive;
         font-size:min(4vw, 20px);
+        .verylow{
+            color:white;
+            text-shadow: 
+            0 0 3px rgb(199, 154, 250),
+            0 0 6px rgb(86, 2, 197),
+            0 0 9px rgb(38, 0, 100);
+        }
+        .low{
+            color:white;
+            text-shadow: 
+            0 0 3px lightblue,
+            0 0 6px blue,
+            0 0 9px darkblue;
+        }
+        .middle{
+            color:white;
+            text-shadow: 
+            0 0 3px lightgreen,
+            0 0 6px green,
+            0 0 9px darkgreen;
+        }
+        .high{
+            color:white;
+            text-shadow: 
+            0 0 3px lightcoral,
+            0 0 6px red,
+            0 0 9px darkred;
+        }
+        .gorgeous{
+            color:white;
+            text-shadow: 
+            0 0 3px lightyellow,
+            0 0 6px yellow,
+            0 0 9px gold;
+        }
         .parameter{
             float:left;
             width:50%; 

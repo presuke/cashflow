@@ -1,4 +1,5 @@
 <script>
+import Chart from 'chart.js/auto';
 import Header from '../Header.vue';
 import Action from './components/Action.vue'
 import Score from './components/Score.vue'
@@ -22,6 +23,10 @@ import sePeriod from '../../se/period.mp3';
 import seRiseFire from '../../se/riseFire.mp3';
 import seDropFire from '../../se/dropFire.mp3';
 import seWin from '../../se/win.mp3';
+import { Bar, Pie } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 export default {
 	components: {
@@ -29,6 +34,8 @@ export default {
 		Action,
 		Score,
 		Footer,
+		Bar,
+		Pie,
 	},
 	data: () => ({
 		playerid: 0,
@@ -88,6 +95,101 @@ export default {
 				error:'',
 				message: '',
 				selection:[],
+			},
+			chart:{
+				displayDialog: false,
+				mode: 'datasTrans',
+				datasTrans: {
+					labels: [ 'January', 'February', 'March'],
+					backgroundColor: ['#f00','#0f0'],
+					datasets: [
+						{
+							label:'現金',
+							type: "bar",
+							backgroundColor: 'rgba(240,240,0,0.7)',
+							data: [40, 20, 12],
+						},
+						{
+							label:'株',
+							type: "bar",
+							backgroundColor: 'rgba(128,128,255,0.7)',
+							data: [10, 15, 102],
+						},
+						{
+							label:'不動産',
+							type: "bar",
+							backgroundColor: 'rgba(128,256,128,0.7)',
+							data: [10, 15, 102],
+						},
+						{
+							label:'ローン',
+							type: "bar",
+							backgroundColor: 'rgba(255,128,128,0.7)',
+							data: [10, 15, 102],
+						},
+						{
+							label:'総資産',
+							type: "line",
+							backgroundColor: 'rgba(128,128,128,0.7)',
+							lineTension: 0.3,
+					        fill: true,
+							data: [10, 15, 102],
+						},
+					],
+					options: {
+						indexAxis: 'y',
+						title:{
+							text:'test',
+						},
+						responsive: true,
+						scales: {
+							x: {
+								display: true,
+								stacked: true,
+								scaleLabel: {
+									display: true,
+									labelString: "Value"
+								},
+							},
+							y: {
+								display: true,
+								stacked: true,
+								scaleLabel: {
+									display: true,
+									labelString: "Value"
+								},
+							},
+						},
+					},
+				},
+				datasHistory: {
+					labels: [ 'January', 'February', 'March'],
+					backgroundColor: ['#f00','#0f0'],
+					datasets: [
+						{
+							label:'行動',
+							type: "radar",
+							backgroundColor: 'rgba(204,204,255,0.7)',
+							data: [40, 20, 12],
+						},
+					],
+					options: {
+						title:'test',
+						responsive: true,
+					},
+					actions:[
+						{name:'work', label:'労働'},
+						{name:'buyEstate', label: '不動産投資'},
+						{name:'buyStock', label: '株式投資'},
+						{name:'trade', label: '資産売却'},
+						{name:'dropLifeLevel', label: '生活水準降下'},
+						{name:'sic', label: '静養'},
+						{name:'treat', label: '休暇'},
+						{name:'lostEstate', label: '不動産見送り'},
+						{name:'lostStock', label: '株式見送り'},
+						{name:'riseLifeLevel', label: '生活水準上昇'},
+					],
+				},
 			},
 			copyright:{
 				displayDialog: false,
@@ -508,12 +610,43 @@ export default {
 		viewTrans(player){
 			axios
 			.get(this.const.docPath + '/api/v1/play/getTrans', {
-				playerid: player.id,
-				authtoken: this.authtoken,
+				params:{
+					myid: this.me.id,
+					playerid: player.id,
+					authtoken: this.authtoken,
+				}
 			})
 			.then((response) => {
 				try {
-					console.log(response);
+					this.form.chart.datasTrans.labels = [];
+					this.form.chart.datasTrans.datasets[0].data = [];
+					this.form.chart.datasTrans.datasets[1].data = [];
+					this.form.chart.datasTrans.datasets[2].data = [];
+					this.form.chart.datasTrans.datasets[3].data = [];
+					this.form.chart.datasTrans.datasets[4].data = [];
+					response.data.trans.forEach((trans) => {
+						this.form.chart.datasTrans.labels.push(trans.turn);
+						this.form.chart.datasTrans.datasets[0].data.push(trans.money);
+						this.form.chart.datasTrans.datasets[1].data.push(trans.stock);
+						this.form.chart.datasTrans.datasets[2].data.push(trans.estate);
+						this.form.chart.datasTrans.datasets[3].data.push(trans.loan * -0.1);
+						this.form.chart.datasTrans.datasets[4].data.push(trans.money + trans.stock + trans.estate - (trans.loan * 0.1));
+					});
+
+					this.form.chart.datasHistory.labels = [];
+					this.form.chart.datasHistory.datasets[0].data = [];
+					this.form.chart.datasHistory.actions.forEach((action) => {
+						let val = 0;
+						response.data.history.forEach((history) => {
+							if(action.name == history.action){
+								val = history.cnt;
+							}
+						});
+						this.form.chart.datasHistory.labels.push(action.label);
+						this.form.chart.datasHistory.datasets[0].data.push(val);
+					});
+					this.form.chart.mode = 'trans';
+					this.form.chart.displayDialog = true;
 				} catch (e) {
 					this.errors = e;
 				}
@@ -684,6 +817,66 @@ export default {
 		</v-card>
 	</v-dialog>
 
+	<!-- グラフ表示ダイアログ-->
+	<v-dialog
+	v-model="this.form.chart.displayDialog"
+	transition="dialog-top-transition"
+	max-width="720"
+	Width="90%"
+	Height="500"
+	class="dialog"
+	style="overflow-y: scroll;"
+	>
+		<v-card>
+			<v-card-title
+			color="primary"
+			dark
+			>
+			<span class="text-h5">実績グラフ</span>
+			</v-card-title>
+			<v-card-text>
+				<div style="width:100%;height:70vh;">
+					<Bar
+					style="width:100%;height:100%;"
+					v-bind:class="[this.form.chart.mode == 'trans' ? 'scaleShow' : 'scaleHide']" 
+					:options="this.form.chart.datasTrans.options"
+					:data="this.form.chart.datasTrans"
+					/>
+					<Bar
+					style="width:100%;height:100%;"
+					v-bind:class="[this.form.chart.mode == 'history' ? 'scaleShow' : 'scaleHide']" 
+					:options="this.form.chart.datasHistory.options"
+					:data="this.form.chart.datasHistory"
+					/>
+				</div>
+			</v-card-text>
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="this.form.chart.mode = 'trans';"
+				>
+					資産推移
+				</v-btn>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="this.form.chart.mode = 'history';"
+				>
+					行動分析
+				</v-btn>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="this.form.chart.displayDialog = false;"
+				>
+					閉じる
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
+
 	<!--銀行借り入れダイアログ-->
 	<v-dialog 
 	v-model="this.form.banking.displayDialog"
@@ -743,7 +936,7 @@ export default {
 		</v-card>
 	</v-dialog>
 
-	<!--銀行借り入れダイアログ-->
+	<!--Notifyダイアログ-->
 	<v-dialog 
 	v-model="this.form.copyright.displayDialog"
 	transition="dialog-top-transition"

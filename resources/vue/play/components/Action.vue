@@ -615,6 +615,10 @@
                                 {{ ($parent.action.parameter.total).toLocaleString() }}
                             </div>
                         </div>
+                        <div v-if="$parent.action.parameter.lifelevel > $parent.action.parameter.lifelevelLast"
+                            style="background-color:red; color:yellow;clear:both;">
+                            生活水準が{{ $parent.action.parameter.lifelevel - $parent.action.parameter.lifelevelLast }}上昇しました。
+                        </div>
                     </div>
                     <br style="clear: left;" />
                 </div>

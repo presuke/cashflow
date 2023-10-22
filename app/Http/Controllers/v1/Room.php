@@ -11,14 +11,15 @@ use DB;
 
 class Room extends BaseController
 {
-   /**
+    /**
      * メンバー作成.
      *
      * @param Request $request
      * @return void
      */
-    public function getAll(Request $request) {
-        try{
+    public function getAll(Request $request)
+    {
+        try {
             $ret = [];
             try {
                 $ret['code'] = 0;
@@ -27,33 +28,32 @@ class Room extends BaseController
                 $ret['rooms'] = [];
 
                 $lstPlayers = [];
-                foreach($players as $player){
+                foreach ($players as $player) {
                     $player->pass = '****';
                     $lstPlayers[$player->roomid][] = $player;
                 }
                 $lstRooms = [];
-                foreach($rooms as $room){
-                    $lstRooms [$room->id]['room'] = $room;
-                    $lstRooms [$room->id]['players'] = $lstPlayers[$room->id];
+                foreach ($rooms as $room) {
+                    $lstRooms[$room->id]['room'] = $room;
+                    $lstRooms[$room->id]['players'] = $lstPlayers[$room->id];
                 }
                 $ret['rooms'] = $lstRooms;
             } catch (\Exception $e) {
                 $ret['code'] = 9;
                 $ret['error'] = $e;
             }
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
         }
         return response()->json($ret);
     }
 
     /**
-     * メンバー作成.
-     *
      * @param Request $request
      * @return void
      */
-    public function create(Request $request) {
-        try{
+    public function create(Request $request)
+    {
+        try {
             $ret = [];
             $params = $request->all();
 
@@ -64,7 +64,7 @@ class Room extends BaseController
                 $roomId = DB::table('room')->insertGetId(['name' => $parameter['roomName'], 'period' => $parameter['periodTurn'],]);
 
                 $playerNum = intVal($parameter['playerNum']);
-                for($i=0; $i<$playerNum; $i++){
+                for ($i = 0; $i < $playerNum; $i++) {
                     DB::table('player')->insert([
                         'roomid' => $roomId,
                         'turn' => 1,
@@ -75,13 +75,34 @@ class Room extends BaseController
 
                 $ret['code'] = 0;
                 $ret['roomName'] = $parameter['roomName'];
-
             } catch (\Exception $e) {
                 $ret['code'] = 9;
                 $ret['error'] = $e->getMessage();
                 DB::rollback();
             }
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
+        }
+        return response()->json($ret);
+    }
+
+    public function remove(Request $request)
+    {
+        $ret = [];
+        $params = $request->all();
+        $roomid = $params['roomid'];
+        DB::beginTransaction();
+        try {
+            DB::table('room')->delete(['id' => $roomid]);
+            DB::table('player')->delete(['roomid' => $roomid]);
+            DB::table('history')->delete(['roomid' => $roomid]);
+            DB::table('asset')->delete(['roomid' => $roomid]);
+            DB::table('trans')->delete(['roomid' => $roomid]);
+            DB::commit();
+            $ret['code'] = 0;
+        } catch (\Exception $e) {
+            DB::rollback();
+            $ret['code'] = 9;
+            $ret['error'] = $e->getMessage();
         }
         return response()->json($ret);
     }

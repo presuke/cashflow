@@ -22,6 +22,7 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/room')->group(function () {
         Route::get('getAll', [RoomV1::Class, 'getAll']);
         Route::post('create', [RoomV1::Class, 'create']);
+        Route::delete('remove', [RoomV1::Class, 'remove']);
     });
     Route::prefix('/work')->group(function () {
         Route::get('getAll', [WorkV1::Class, 'getAll']);

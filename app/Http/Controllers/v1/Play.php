@@ -147,6 +147,7 @@ class Play extends BaseController
             $ret['code'] = 0;
             $params = $request->all();
             try {
+                $myid = $params['myid'];
                 $playerid = $params['playerid'];
 
                 if (isset($params['authtoken'])) {
@@ -155,15 +156,24 @@ class Play extends BaseController
                     $authToken = '';
                 }
 
-                $checkStatus = Auth::checkAcuthToken($playerid, $authToken);
+                $checkStatus = Auth::checkAcuthToken($myid, $authToken);
                 if ($checkStatus == 0) {
-
                     //自プレイヤー
+                    $me = DB::table('player')->select('id', 'roomid', 'name', 'turn', 'workid', 'lifelevel')->where(
+                        [
+                            'id' => $myid,
+                        ]
+                    )->first();
+
                     $ret['trans'] = DB::table('trans')->where(
                         [
+                            'roomid' => $me->roomid,
                             'playerid' => $playerid,
                         ]
                     )->get();
+
+                    $sql = "SELECT action, COUNT(action) AS cnt FROM history WHERE roomid=? AND playerid=? AND action NOT IN('confirm', 'confirmAll', 'drowCard') GROUP BY action ORDER BY cnt DESC";
+                    $ret['history'] = DB::select($sql, [$me->roomid, $playerid]);
                 } else {
                     $ret['code'] = $checkStatus;
                 }
