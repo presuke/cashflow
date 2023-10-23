@@ -917,7 +917,10 @@ class Action
           //売る資産がないのに資産売却は出さない
         } else if ($myAssetsCount == 0 && $card >= 70 && $card < 80) {
           //生活水準の上げ下げを連続して出さない
-        } else if ($myAction->action == 'dropLifeLevel' || $myAction->action == 'riseLifeLevel' && $card >= 80 && $card < 95) {
+        } else if ($myAction->action == 'dropLifeLevel' || $myAction->action == 'riseLifeLevel') {
+          if ($card < 80 || $card >= 95) {
+            break;
+          }
         } else {
           break;
         }
