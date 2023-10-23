@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>リダイレクト</title>
+  <title>The Cashflow</title>
   @vite(['resources/css/app.css', 'resources/js/index/app.js'])
   <script src="//unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
   <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
