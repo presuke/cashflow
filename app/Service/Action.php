@@ -911,8 +911,11 @@ class Action
       while (true) {
         //ランダム変数
         $card = rand(0, 99);
-        //売る資産がないのに資産売却は出さない
-        if ($myAssetsCount == 0 && $card >= 70 && $card < 80) {
+        //初手ならばそのまま進む
+        if ($myAction == null) {
+          break;
+          //売る資産がないのに資産売却は出さない
+        } else if ($myAssetsCount == 0 && $card >= 70 && $card < 80) {
           //生活水準の上げ下げを連続して出さない
         } else if ($myAction->action == 'dropLifeLevel' || $myAction->action == 'riseLifeLevel' && $card >= 80 && $card < 95) {
         } else {
