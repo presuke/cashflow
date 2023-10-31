@@ -11,7 +11,7 @@ export default {
 		VueQrcode,
 	},
 	data: () => ({
-		apiPath: '',
+		rootPath: '',
 		isLoading: true,
 		modeView: 0,
 		rooms: [],
@@ -56,9 +56,9 @@ export default {
 		},
 	}),
 	created: function () {
-		this.apiPath = location.href;
-		if(this.apiPath.indexOf('/room') != -1){
-			this.apiPath = this.apiPath.split('/room')[0];
+		this.rootPath = location.href;
+		if(this.rootPath.indexOf('/room') != -1){
+			this.rootPath = this.rootPath.split('/room')[0];
 		}
 		this.loadRooms();
 		this.loadWorks();
@@ -74,7 +74,7 @@ export default {
 			this.form.player.roomid = 0;
 			this.errors = [];
 			axios
-				.get(this.apiPath + '/api/v1/room/getAll', this.param)
+				.get(this.rootPath + '/api/v1/room/getAll', this.param)
 				.then((response) => {
 					this.isLoading = false;
 					try {
@@ -98,7 +98,7 @@ export default {
 			this.form.selection.works = [];
 			this.errors = [];
 			axios
-				.get(this.apiPath + '/api/v1/work/getAll', this.param)
+				.get(this.rootPath + '/api/v1/work/getAll', this.param)
 				.then((response) => {
 					try {
 						if(response.data.error != undefined){
@@ -121,7 +121,7 @@ export default {
 		createRoom(){
 			this.create.form.step = 3;
 			axios
-			.post(this.apiPath + '/api/v1/room/create', {
+			.post(this.rootPath + '/api/v1/room/create', {
 				parameter: this.create.form,
 			})
 			.then((response) => {
@@ -148,7 +148,7 @@ export default {
 				return;
 			}
 			axios
-			.delete(this.apiPath + '/api/v1/room/remove', {
+			.delete(this.rootPath + '/api/v1/room/remove', {
 				data: {
 					roomid: room.id,
 				},
@@ -204,7 +204,7 @@ export default {
 				this.form.player.img = this.form.selection.imgs[this.form.player.imgSelected];
 				this.form.player.workid = this.form.selection.works[this.form.player.workidSelected].id;
 				axios
-				.post(this.apiPath + '/api/v1/player/create', this.form.player)
+				.post(this.rootPath + '/api/v1/player/create', this.form.player)
 				.then((response) => {
 					try {
 						if(response.data.player != undefined){
@@ -284,7 +284,7 @@ export default {
 	<header>
 		<Header></Header>
 	</header>
-	{{ this.apiPath }}
+	{{ this.rootPath }}
 	<v-card v-bind:class="[create.flg==0 ? 'scaleShow' : 'scaleHide']">
 		<div style="margin-top:10px;">
 			<v-btn
@@ -345,7 +345,7 @@ export default {
 						<div v-if="player.name != ''">
 							<div style="float: left;">
 								<img 
-								:src="'../image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
+								:src=" this.rootPath + '/image/avatar/' + player.sex + '/icon0' + player.img + '.png'" 
 								class="rounded-circle"
 								Width="30"
 								Height="30"
@@ -358,7 +358,7 @@ export default {
 						<div v-else>
 							<div style="float: left;">
 								<img 
-								:src="'../image/avatar/random.png'" 
+								:src="this.rootPath + '/image/avatar/random.png'" 
 								class="rounded-circle"
 								Width="30"
 								Height="30"
@@ -436,7 +436,7 @@ export default {
 						contain
 					>
 						<img 
-						:src="'../image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
+						:src="this.rootPath + '/image/avatar/' + form.player.sex + '/icon0' + img + '.png'" 
 						class="rounded-circle"
 						/>
 					</v-carousel-item>
@@ -465,7 +465,11 @@ export default {
 						style="width:300px; padding:10px; margin: 0 auto;"
 					>
 						<div style="float:left;">
-							<img width="45" height="45" class="rounded-circle" :src="'../image/work/' + work.img + '.png'" />
+							<img 
+							width="45" 
+							height="45" 
+							class="rounded-circle" 
+							:src="this.rootPath + '/image/work/' + work.img + '.png'" />
 						</div>
 						<div style="float:left;">
 							<div class="text-h4">{{work.type}}</div>
@@ -509,7 +513,7 @@ export default {
 				</v-card-title>
 				<v-card-text>
 					<img 
-						:src="'../image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
+						:src="this.rootPath + '/image/avatar/' + form.player.sex + '/icon0' + form.player.img + '.png'" 
 						class="rounded-circle"
 						/>
 					<div>
