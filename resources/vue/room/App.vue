@@ -118,6 +118,13 @@ export default {
 					console.log(err);
 				});
 		},
+		showFormCreateRoom(){
+			this.create.flg=true; 
+			this.create.form.step=1;
+			this.create.form.roomName='';
+			this.create.form.playerNum=1;
+			this.create.form.periodTurn=5;
+		},
 		createRoom(){
 			this.create.form.step = 3;
 			axios
@@ -292,7 +299,7 @@ export default {
 				>部屋再読み込み</v-btn
 			>
 			<v-btn
-				@click="create.flg = 1"
+				@click="showFormCreateRoom()"
 			>
 				部屋を作成する
 			</v-btn>
