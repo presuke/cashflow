@@ -114,6 +114,53 @@ export default {
 					console.log(err);
 				});
 		},
+		createRoom(){
+			this.create.form.step = 3;
+			axios
+			.post('../api/v1/room/create', {
+				parameter: this.create.form,
+			})
+			.then((response) => {
+				if(response.data.code == 0){
+					this.create.form.step = 4;
+				}else{
+					this.create.form.step = 2;
+					this.create.error = response.data.error;
+				}
+			})
+			.catch((err) => {
+				this.create.error = err.message;
+				this.create.form.step = 2;
+			});
+		},
+		removeRoom(room, confirmed){
+			if(!confirmed){
+				this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」を削除します。よろしいですか？';
+				if(room.players[0].turn > 1){
+					this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」はプレイ中で、現在' + room.players[0].turn + 'ターン目のようです。本当に削除しますか？';
+				}
+				this.confirmRemoveRoom.room = room.room;
+				this.confirmRemoveRoom.show = true;
+				return;
+			}
+			axios
+			.delete('../api/v1/room/remove', {
+				data: {
+					roomid: room.id,
+				},
+			})
+			.then((response) => {
+				if(response.data.code == 0){
+					this.confirmRemoveRoom.show = false;
+					this.loadRooms();
+				}else{
+					this.confirmRemoveRoom.message = 'エラーが発生しました。エラーコード：' + response.data.code;
+				}
+			})
+			.catch((err) => {
+				this.confirmRemoveRoom.message = 'エラーが発生しました。エラー：' + err.message;
+			});
+		},
 		entryRoom(room){
 			this.playersOnRoom = room.players;
 			this.form.player.roomid = room.room.id;
@@ -188,53 +235,6 @@ export default {
 				this.create.form.step = 2;
 			}
 		},
-		createRoom(){
-			this.create.form.step = 3;
-			axios
-			.post('../api/v1/room/create', {
-				parameter: this.create.form,
-			})
-			.then((response) => {
-				if(response.data.code == 0){
-					this.create.form.step = 4;
-				}else{
-					this.create.form.step = 2;
-					this.create.error = response.data.error;
-				}
-			})
-			.catch((err) => {
-				this.create.error = err.message;
-				this.create.form.step = 2;
-			});
-		},
-		removeRoom(room, confirmed){
-			if(!confirmed){
-				this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」を削除します。よろしいですか？';
-				if(room.players[0].turn > 1){
-					this.confirmRemoveRoom.message = '部屋「' + room.room.name + '」はプレイ中で、現在' + room.players[0].turn + 'ターン目のようです。本当に削除しますか？';
-				}
-				this.confirmRemoveRoom.room = room.room;
-				this.confirmRemoveRoom.show = true;
-				return;
-			}
-			axios
-			.delete('../api/v1/room/remove', {
-				data: {
-					roomid: room.id,
-				},
-			})
-			.then((response) => {
-				if(response.data.code == 0){
-					this.confirmRemoveRoom.show = false;
-					this.loadRooms();
-				}else{
-					this.confirmRemoveRoom.message = 'エラーが発生しました。エラーコード：' + response.data.code;
-				}
-			})
-			.catch((err) => {
-				this.confirmRemoveRoom.message = 'エラーが発生しました。エラー：' + err.message;
-			});
-		},
 		checkString(inputdata) {
 			var regExp = /^[a-zA-Z0-9_]*$/;
 			return regExp.test(inputdata);
@@ -280,6 +280,7 @@ export default {
 	<header>
 		<Header></Header>
 	</header>
+	{{ this.url }}
 	<v-card v-bind:class="[create.flg==0 ? 'scaleShow' : 'scaleHide']">
 		<div style="margin-top:10px;">
 			<v-btn
