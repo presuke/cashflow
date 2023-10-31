@@ -11,7 +11,7 @@ export default {
 		VueQrcode,
 	},
 	data: () => ({
-		url: location.href,
+		apiPath: '',
 		isLoading: true,
 		modeView: 0,
 		rooms: [],
@@ -56,6 +56,10 @@ export default {
 		},
 	}),
 	created: function () {
+		this.apiPath = location.href;
+		if(this.apiPath.indexOf('/room') != -1){
+			this.apiPath = this.apiPath.split('/room')[0];
+		}
 		this.loadRooms();
 		this.loadWorks();
 	},
@@ -70,7 +74,7 @@ export default {
 			this.form.player.roomid = 0;
 			this.errors = [];
 			axios
-				.get('../api/v1/room/getAll', this.param)
+				.get(this.apiPath + '/api/v1/room/getAll', this.param)
 				.then((response) => {
 					this.isLoading = false;
 					try {
@@ -94,7 +98,7 @@ export default {
 			this.form.selection.works = [];
 			this.errors = [];
 			axios
-				.get('../api/v1/work/getAll', this.param)
+				.get(this.apiPath + '/api/v1/work/getAll', this.param)
 				.then((response) => {
 					try {
 						if(response.data.error != undefined){
@@ -117,7 +121,7 @@ export default {
 		createRoom(){
 			this.create.form.step = 3;
 			axios
-			.post('../api/v1/room/create', {
+			.post(this.apiPath + '/api/v1/room/create', {
 				parameter: this.create.form,
 			})
 			.then((response) => {
@@ -144,7 +148,7 @@ export default {
 				return;
 			}
 			axios
-			.delete('../api/v1/room/remove', {
+			.delete(this.apiPath + '/api/v1/room/remove', {
 				data: {
 					roomid: room.id,
 				},
@@ -200,7 +204,7 @@ export default {
 				this.form.player.img = this.form.selection.imgs[this.form.player.imgSelected];
 				this.form.player.workid = this.form.selection.works[this.form.player.workidSelected].id;
 				axios
-				.post('../api/v1/player/create', this.form.player)
+				.post(this.apiPath + '/api/v1/player/create', this.form.player)
 				.then((response) => {
 					try {
 						if(response.data.player != undefined){
@@ -280,7 +284,7 @@ export default {
 	<header>
 		<Header></Header>
 	</header>
-	{{ this.url }}
+	{{ this.apiPath }}
 	<v-card v-bind:class="[create.flg==0 ? 'scaleShow' : 'scaleHide']">
 		<div style="margin-top:10px;">
 			<v-btn
