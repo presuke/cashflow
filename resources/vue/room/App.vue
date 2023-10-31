@@ -291,7 +291,6 @@ export default {
 	<header>
 		<Header></Header>
 	</header>
-	{{ this.rootPath }}
 	<v-card v-bind:class="[create.flg==0 ? 'scaleShow' : 'scaleHide']">
 		<div style="margin-top:10px;">
 			<v-btn
