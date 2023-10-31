@@ -11,6 +11,7 @@ export default {
 		VueQrcode,
 	},
 	data: () => ({
+		url: location.href,
 		rootPath: '',
 		isLoading: true,
 		modeView: 0,
@@ -56,9 +57,8 @@ export default {
 		},
 	}),
 	created: function () {
-		this.rootPath = location.href;
-		if(this.rootPath.indexOf('/room') != -1){
-			this.rootPath = this.rootPath.split('/room')[0];
+		if(this.url.indexOf('/room') != -1){
+			this.rootPath = this.url.split('/room')[0];
 		}
 		this.loadRooms();
 		this.loadWorks();
