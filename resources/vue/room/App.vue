@@ -179,7 +179,7 @@ export default {
 				this.form.player = player;
 				this.modeView = 2;
 			}else{
-				location.href = '../play/' + player.id;
+				location.href = this.rootPath + '/play/' + player.id;
 			}
 		},
 		checkName(){
