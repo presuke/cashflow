@@ -114,30 +114,6 @@ export default {
 					console.log(err);
 				});
 		},
-		prevIcon(){
-			if(this.form.player.img == 0){
-				this.form.player.img = this.form.selection.imgs.length;
-			}else{
-				this.form.player.img--;
-			}
-		},
-		nextIcon(){
-			if(this.form.player.img == this.form.selection.imgs.length){
-				this.form.player.img = 0;
-			}else{
-				this.form.player.img++;
-			}
-		},
-		prevWork(){
-			if(this.form.player.workid == 0){
-				this.form.player.workid = this.form.selection.works.length;
-			}else{
-				this.form.player.workid--;
-			}
-		},
-		nextWork(){
-			this.form.player.workid++;
-		},
 		entryRoom(room){
 			this.playersOnRoom = room.players;
 			this.form.player.roomid = room.room.id;
@@ -269,16 +245,6 @@ export default {
 				? (booleanLength = true)
 				: (booleanLength = false);
 			return booleanLength;
-		},
-		askConfirm(message) {
-			this.confirm.show = true;
-			this.confirm.messag = message;
-			return new Promise(resolve =>
-				this.$once('answerdConfirm', confirmValue => {
-					this.confirm.show = false;
-					resolve(confirmValue);
-				})
-		    );
 		},
 	},
 };
