@@ -277,7 +277,6 @@ class Play extends BaseController
                                     'playerid' => $me->id,
                                 ]
                             )->orderBy('ins', 'DESC')->first();
-                            $myHistory['parameter'] = json_decode($myHistory['parameter']);
 
                             //直近のプレイヤーのアクション(confirm以外)
                             $action = [];
