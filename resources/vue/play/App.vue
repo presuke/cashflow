@@ -372,9 +372,9 @@ export default {
 							this.startRefleshTimer();
 							//自動確認
 							try{
-								const  myAction = response.data.myAction;
+								const  myHistory = response.data.myHistory;
 								if(this.action.event == 99 && 
-								   myAction.action != 'confirm' && 
+								   myHistory.action != 'confirm' && 
 								   !(this.autoConfirm.timer > 0)){
 									this.startAutoConfirmTimer();
 								}
