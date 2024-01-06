@@ -375,8 +375,15 @@ export default {
 								const  myHistory = response.data.myHistory;
 								this.actionResult.message = myHistory.parameter;
 								myHistory.parameter = JSON.parse(myHistory.parameter);
+								//カレントプレイヤーに対して確認済みかどうか
+								let flgConfirmed = false;
+								if(myHistory.action == 'confirm' && 
+								   myHistory.parameter.playerid == this.crntPlayer.id){
+									flgConfirmed = true;
+								}
+
 								if(this.action.event == 99 && 
-								   myHistory.action != 'confirm' && 
+								   !flgConfirmed && 
 								   !(this.autoConfirm.timer > 0)){
 									this.startAutoConfirmTimer();
 								}
