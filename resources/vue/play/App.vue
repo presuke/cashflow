@@ -374,6 +374,13 @@ export default {
 							}
 						}
 
+						//確認ボタンが表示されていないなら自動確認昨日はOFFにする。
+						if(this.action.event != 99 && this.autoConfirm.timer > 0){
+							clearInterval(this.autoConfirm.timer);
+							this.autoConfirm.timer = null;
+							this.actionResult.message = "";
+						}
+
 					}else if(response.data.code == 7){
 						//名無しエラー
 						this.problem = this.const.problems.namelessOtherPlayer;
