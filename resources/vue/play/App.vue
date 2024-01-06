@@ -373,7 +373,6 @@ export default {
 							//自動確認
 							try{
 								const  myHistory = response.data.myHistory;
-								this.actionResult.message = myHistory.parameter;
 								myHistory.parameter = JSON.parse(myHistory.parameter);
 								//カレントプレイヤーに対して確認済みかどうか
 								let flgConfirmed = false;
