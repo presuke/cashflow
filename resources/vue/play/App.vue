@@ -373,6 +373,8 @@ export default {
 							//自動確認
 							try{
 								const  myHistory = response.data.myHistory;
+								this.actionResult.message = myHistory.parameter;
+								myHistory.parameter = JSON.parse(myHistory.parameter);
 								if(this.action.event == 99 && 
 								   myHistory.action != 'confirm' && 
 								   !(this.autoConfirm.timer > 0)){
