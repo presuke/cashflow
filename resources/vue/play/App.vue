@@ -373,7 +373,7 @@ export default {
 
 							if(this.action.event == 99){
 								let flgAutoConfirm = !(this.autoConfirm.timer > 0);
-								if(!flgAutoConrfirm){
+								if(flgAutoConrfirm){
 									//自動確認
 									try{
 										const  myHistory = response.data.myHistory;
