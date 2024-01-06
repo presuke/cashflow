@@ -373,23 +373,21 @@ export default {
 
 							if(this.action.event == 99){
 								let flgAutoConfirm = !(this.autoConfirm.timer > 0);
-								if(flgAutoConrfirm){
-									//自動確認
-									try{
-										const  myHistory = response.data.myHistory;
-										//カレントプレイヤーに対して確認済みかどうか
-										if(myHistory.action == 'confirm'){
-											const parameter = JSON.parse(myHistory.parameter);
-											if(parameter.crntPlayerid == this.crntPlayer.id){
-												flgAutoConfirm = false;
-											}
+								//自動確認
+								try{
+									const  myHistory = response.data.myHistory;
+									//カレントプレイヤーに対して確認済みかどうか
+									if(myHistory.action == 'confirm'){
+										const parameter = JSON.parse(myHistory.parameter);
+										if(parameter.crntPlayerid == this.crntPlayer.id){
+											flgAutoConfirm = false;
 										}
-
-										if(flgAutoConfirm){
-											this.startAutoConfirmTimer();
-										}
-									}catch(e){
 									}
+
+									if(flgAutoConfirm){
+										this.startAutoConfirmTimer();
+									}
+								}catch(e){
 								}
 							}
 						}
