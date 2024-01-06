@@ -86,6 +86,7 @@ export default {
 				interval: 1000,
 				countMax: 10,
 			},
+			done: false,
 			timer: '',
 			count: 0,
 		},
@@ -370,15 +371,18 @@ export default {
 							console(this.action);
 						}else{
 							this.startRefleshTimer();
-							if(this.action.event == 99 && !(this.autoConfirm.timer > 0)){
+							if(this.action.event == 99 && 
+							   !(this.autoConfirm.timer > 0) && 
+							   !this.autoConfirm.done){
 								this.startAutoConfirmTimer();
 							}
 						}
 
-						//確認ボタンが表示されていないなら自動確認昨日はOFFにする。
+						//確認ボタンが表示されていないなら自動確認機能はOFFにする。
 						if(this.action.event != 99 && this.autoConfirm.timer > 0){
 							clearInterval(this.autoConfirm.timer);
 							this.autoConfirm.timer = null;
+							this.autoConfirm.done = false;
 							this.actionResult.message = "";
 						}
 
@@ -577,6 +581,7 @@ export default {
 						this.actionResult.error = response.data.error;
 					}else if(response.data.message != undefined){
 						this.actionResult.message = response.data.message;
+						this.autoConfirm.done = true;
 						this.reflesh.count * 100 / this.reflesh.const.countMax - 1;
 					}
 				} catch (e) {
