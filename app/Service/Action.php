@@ -151,7 +151,7 @@ class Action
     return $ret;
   }
 
-  public static function  work($me)
+  public static function work($me)
   {
     $ret = [];
     try {
@@ -209,7 +209,7 @@ class Action
     return $ret;
   }
 
-  public static function  treat($me, $isSic = false)
+  public static function treat($me, $isSic = false)
   {
     $ret = [];
     try {
@@ -602,7 +602,7 @@ class Action
     return $ret;
   }
 
-  public static function  changeLifeLevel($me, $isRise)
+  public static function changeLifeLevel($me, $isRise)
   {
     try {
       $mywork = DB::table('work')->select('lifelevelMax', 'lifelevelMin')->where(
@@ -872,7 +872,7 @@ class Action
     return $ret;
   }
 
-  public static function  drowCard($me)
+  public static function drowCard($me)
   {
     try {
 
@@ -1068,7 +1068,7 @@ class Action
     }
   }
 
-  public static function  drowCardFire($me)
+  public static function drowCardFire($me)
   {
     try {
 

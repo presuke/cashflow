@@ -91,10 +91,10 @@ return new class extends Migration
             'id' => 1,
             'type' => '医者',
             'img' => 'doctor',
-            'salary' => 1000,
+            'salary' => 1200,
             'lifelevelMax' => 10,
             'lifelevelMin' => 5,
-            'vanity' => 150,
+            'vanity' => 130,
         ]);
         DB::table('work')->insert([
             'id' => 2,
@@ -103,7 +103,7 @@ return new class extends Migration
             'salary' => 750,
             'lifelevelMax' => 9,
             'lifelevelMin' => 4,
-            'vanity' => 120,
+            'vanity' => 100,
         ]);
         DB::table('work')->insert([
             'id' => 3,
@@ -116,7 +116,7 @@ return new class extends Migration
         ]);
         DB::table('work')->insert([
             'id' => 4,
-            'type' => '工場労務',
+            'type' => '工場作業員',
             'img' => 'worker',
             'salary' => 400,
             'lifelevelMax' => 7,

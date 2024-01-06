@@ -81,6 +81,14 @@ export default {
 			countValue: 40,
 			message: '',
 		},
+		autoConfirm:{
+			const:{
+				interval: 1000,
+				countMax: 10,
+			},
+			timer: '',
+			count: 0,
+		},
 		form:{
 			login:{
 				displayDialog: false,
@@ -275,6 +283,17 @@ export default {
 				}
 			}, this.reflesh.const.interval);
 		},
+		startAutoConfirmTimer(){
+			this.autoConfirm.count = this.autoConfirm.const.countMax;
+			this.autoConfirm.timer = null;
+			this.autoConfirm.timer = setInterval(()=>{
+				this.autoConfirm.count--;
+				this.actionResult.message = this.autoConfirm.count + "秒後に自動で確認ボタンを押します。";
+				if(this.autoConfirm.count == 0){
+					this.confirm();
+				}
+			}, this.autoConfirm.const.interval);
+		},
 		refleshStatus() {
 			//部屋の状況を取得
 			this.authtoken = localStorage.getItem(this.const.authTokenName);
@@ -350,6 +369,9 @@ export default {
 							console(this.action);
 						}else{
 							this.startRefleshTimer();
+							if(this.action.event == 99 && !(this.autoConfirm.timer > 0)){
+								this.startAutoConfirmTimer();
+							}
 						}
 
 					}else if(response.data.code == 7){
@@ -529,6 +551,8 @@ export default {
 		confirm(){
 			this.actionResult.error = '';
 			this.se.Action.play();
+			clearInterval(this.autoConfirm.timer);
+			this.autoConfirm.timer = null;
 
 			axios
 			.post(this.const.docPath + '/api/v1/play/action', {
@@ -596,6 +620,7 @@ export default {
 								this.form.banking.message = response.data.message;
 								this.refleshStatus();
 								this.se.Success.play();
+								this.form.banking.displayDialog = false;
 							}
 						} catch (e) {
 							this.errors = e;
