@@ -83,6 +83,7 @@ export default {
 		},
 		autoConfirm:{
 			const:{
+				startAt: 3000,
 				interval: 1000,
 				countMax: 10,
 			},
@@ -385,7 +386,9 @@ export default {
 									}
 
 									if(flgAutoConfirm){
-										this.startAutoConfirmTimer();
+										setTimeout(()=>{
+											this.startAutoConfirmTimer();
+										}, this.autoConfirm.const.startAt);
 									}
 								}catch(e){
 								}
