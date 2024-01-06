@@ -288,6 +288,7 @@ export default {
 			this.autoConfirm.timer = null;
 			this.autoConfirm.timer = setInterval(()=>{
 				this.autoConfirm.count--;
+				this.actionResult.error = "";
 				this.actionResult.message = this.autoConfirm.count + "秒後に自動で確認ボタンを押します。";
 				if(this.autoConfirm.count == 0){
 					this.confirm();
