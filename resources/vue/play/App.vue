@@ -370,8 +370,15 @@ export default {
 							console(this.action);
 						}else{
 							this.startRefleshTimer();
-							if(this.action.event == 99 && !(this.autoConfirm.timer > 0)){
-								this.startAutoConfirmTimer();
+							//自動確認
+							try{
+								const  myAction = response.data.myAction;
+								if(this.action.event == 99 && 
+								   myAction.action != 'confirm' && 
+								   !(this.autoConfirm.timer > 0)){
+									this.startAutoConfirmTimer();
+								}
+							}catch(e){
 							}
 						}
 
