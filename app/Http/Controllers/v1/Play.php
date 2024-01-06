@@ -359,6 +359,7 @@ class Play extends BaseController
                             $ret['assets'] = $assets;
                             $ret['crntPlayer'] = $crntPlayer;
                             $ret['action'] = $action;
+                            $ret['myHistory'] = $myHistory;
                         }
                     }
                 } else {
