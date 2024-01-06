@@ -270,6 +270,14 @@ class Play extends BaseController
                                 }
                             }
 
+                            //直近の自分のアクション
+                            $myHistory = DB::table('history')->select('roomid', 'playerid', 'turn', 'action', 'parameter')->where(
+                                [
+                                    'roomid' => $me->roomid,
+                                    'playerid' => $me->id,
+                                ]
+                            )->orderBy('ins', 'DESC')->first();
+
                             //直近のプレイヤーのアクション(confirm以外)
                             $action = [];
                             $history = DB::table('history')->select('roomid', 'playerid', 'turn', 'action', 'parameter')->where(
