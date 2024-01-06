@@ -377,7 +377,7 @@ export default {
 								//カレントプレイヤーに対して確認済みかどうか
 								let flgConfirmed = false;
 								if(myHistory.action == 'confirm' && 
-								   myHistory.parameter.playerid == this.crntPlayer.id){
+								   myHistory.parameter.crntPlayerid == this.crntPlayer.id){
 									flgConfirmed = true;
 								}
 
