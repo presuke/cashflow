@@ -42,7 +42,7 @@ export default {
 				<div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
 					<a 
 					href="./room/" 
-					style="width:400px;"
+					style="width:360px;"
 					class="btn btn-border-gradient">
 						<span class="btn-text-gradient--gold">Play Game</span>
 					</a>
@@ -51,7 +51,7 @@ export default {
 				<div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
 					<a 
 					href="javascript:return(false);"
-					style="width:400px;"
+					style="width:360px;"
 					class="btn btn-border-gradient" 
 					@click="this.form.howto.displayDialog=true"
 					>
