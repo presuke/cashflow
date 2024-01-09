@@ -47,6 +47,7 @@ export default {
 						<span class="btn-text-gradient--gold">Play Game</span>
 					</a>
 				</div>
+				<div style="margin:5px;"></div>
 				<div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
 					<a 
 					href="javascript:return(false);"
