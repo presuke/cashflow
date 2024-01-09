@@ -27,9 +27,10 @@
 	height:min(20vw, 100px);
 	width:min(24vw, 120px);
 	border-radius: 5px;
-	background-image:url('../../../image/cardDesign.jpg');
+	background-image:url('../../../image/cardDesign.png');
     background-size: 100% 100%;
     cursor:pointer;
+    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.5);
 }
 .cardDesign:hover{
   transform:scale(1.2,1.2);
@@ -348,7 +349,7 @@
     cursor: pointer;
 }
 .win{
-    background-color: url('../../../image/fire.jpg');
+    background-color: url('../../../image/win.png');
     padding-top:40px;
 }
 @keyframes fadeDownAnime{

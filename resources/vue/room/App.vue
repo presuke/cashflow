@@ -2,12 +2,14 @@
 import axios from 'axios';
 import Header from '../Header.vue';
 import Footer from '../Footer.vue';
+import CopyRight from '../CopyRight.vue';
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 export default {
 	components: {
 		Header,
 		Footer,
+		CopyRight,
 		VueQrcode,
 	},
 	data: () => ({
@@ -36,6 +38,9 @@ export default {
 				pass1: '',
 				pass2: '',
 				color: 'white',
+			},
+			copyright:{
+				displayDialog: false,
 			},
 		},
 		create: {
@@ -265,6 +270,7 @@ export default {
 </style>
 <style lang="scss" scoped>
 @import '../../scss/app.scss';
+@import '../../scss/index.scss';
 </style>
 <style>
 .step{
@@ -581,12 +587,29 @@ export default {
 			</v-btn>
 		</div>
 		<div class="step" v-bind:class="[create.form.step==2 ? 'scaleShow' : 'scaleHide']">
-			<div>
-				これでいいですか？
+			<br style="margin:5px;" />
+			<div v-if="create.form.step==2" class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
+				<a 
+				href="javascript:void(0);" 
+				style="width:400px; font-size:smaller;"
+				class="btn btn-border-gradient">
+					<h2 
+					class="btn-text-gradient--gold"
+					>
+						これでいいですか？
+					</h2>
+					<div class="btn-text-gradient--gold">
+						部屋名:{{ create.form.roomName }}
+					</div>
+					<div class="btn-text-gradient--gold">
+						プレイヤー数:{{ create.form.playerNum }}
+					</div>
+					<div class="btn-text-gradient--gold">
+						決算ターン:{{ create.form.periodTurn }}
+					</div>
+				</a>
 			</div>
-			<div>部屋名:{{ create.form.roomName }}</div>
-			<div>プレイヤー数:{{ create.form.playerNum }}</div>
-			<div>決算ターン:{{ create.form.periodTurn }}</div>
+			<br style="clear:both;" />
 			<v-btn
 				@click="create.form.step=1"
 				>考え直す</v-btn>
@@ -641,7 +664,31 @@ export default {
 		</v-card>
 	</v-dialog>
 	<VueQrcode :value="url" :options="{ width: 200 }" />
-	<footer>
+	<!--Notifyダイアログ-->
+	<v-dialog 
+	v-model="this.form.copyright.displayDialog"
+	transition="dialog-top-transition"
+	max-width="400"
+	>
+		<v-card width="320" height="400">
+			<v-card-text style="overflow-y: auto;">
+				<div style="font-size:smaller;">
+					<CopyRight></CopyRight>
+				</div>
+			</v-card-text>
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn
+				color="blue-darken-1"
+				variant="text"
+				@click="this.form.copyright.displayDialog = false;"
+				>
+					閉じる
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
+	<footer @click="this.form.copyright.displayDialog = true;">
 		<Footer></Footer>
 	</footer>
 </template>
