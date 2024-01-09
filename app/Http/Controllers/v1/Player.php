@@ -26,6 +26,16 @@ class Player extends BaseController
             DB::beginTransaction();
             try {
 
+                //ランダムであればランダムに選定
+                if ($params['workid'] == 0) {
+                    $works = DB::table('work')->get();
+                    $lst = [];
+                    foreach ($works as $work) {
+                        $lst[] = $work->id;
+                    }
+                    $params['workid'] = $lst[time() % count($lst)];
+                }
+
                 $work = DB::table('work')->where(
                     [
                         'id' => $params['workid']

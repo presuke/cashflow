@@ -474,32 +474,41 @@ export default {
 					<v-card
 						outlined
 						shaped
-						style="width:300px; padding:10px; margin: 0 auto;"
+						style="width:300px; padding:10px; margin: 0 auto; background-color: black;"
 					>
-						<div style="float:left;">
-							<img 
-							width="45" 
-							height="45" 
-							class="rounded-circle" 
-							:src="this.rootPath + '/image/work/' + work.img + '.png'" />
+					<div 
+					style="float:left;">
+						<img 
+						width="45" 
+						height="45" 
+						class="rounded-circle" 
+						:src="this.rootPath + '/image/work/' + work.img + '.png'" />
+					</div>
+					<div 
+					class="btn-text-gradient--gold text-h4"
+					style="float:left;">
+						{{work.type}}
+					</div>
+
+					<div 
+						style="width:270px;"
+						class="btn-border-gradient-wrap btn-border-gradient-wrap--gold"
+						>
+							<a 
+							href="javascript:void(0);" 
+							style="width:260px; font-size:smaller;"
+							class="btn btn-border-gradient">
+								<div class="btn-text-gradient--gold">
+									給料：{{ work.salary }}
+								</div>
+								<div class="btn-text-gradient--gold">
+									生活水準:{{ work.lifelevelMin }} ～ {{ work.lifelevelMax }}
+									<br>
+									※初期状態：{{ work.lifelevelMin }}
+								</div>
+							</a>
 						</div>
-						<div style="float:left;">
-							<div class="text-h4">{{work.type}}</div>
-						</div>
-						<div style="clear:left; margin-left:10px;">
-							<div>
-								給料：{{ work.salary }}
-							</div>
-							<div>生活水準</div>
-							<ul style="margin-left:10px;">
-								<li>
-									最低：{{ work.lifelevelMin }}
-								</li>
-								<li>
-									最高：{{ work.lifelevelMax }}
-								</li>
-							</ul>
-						</div>
+						<br style="clear:both;" />
 					</v-card>
 				</v-carousel-item>
 			</v-carousel>
