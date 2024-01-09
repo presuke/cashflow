@@ -37,7 +37,7 @@ export default {
 	</header>
 	<div class="area">
 		<div style="text-align: center;">
-			<div style="margin:auto; max-width:500px; max-height:auto; position: relative; z-index:10;">
+			<div style="margin:auto; max-width:400px; max-height:auto; position: relative; z-index:10;">
 				<img src="image/top.png" style="width:100%; height:auto;" />
 				<div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
 					<a 
