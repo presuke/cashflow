@@ -511,11 +511,11 @@ export default {
 				this.players.forEach(player => {
 					let endCount = {};
 					keyParameters.forEach(keyParameter =>{
-						endCount[ketParameter] = 0;
+						endCount[keyParameter] = 0;
 						if(player[keyParameter] != this.scores[player.id][keyParameter]){
 							let timerAnimation = setInterval(() =>{
 								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10
-								   || endCount[ketParameter] > 10){
+								   || endCount[keyParameter] > 10){
 									this.scores[player.id][keyParameter] = player[keyParameter];
 									clearInterval(timerAnimation);
 									this.se.Katakata.pause();
