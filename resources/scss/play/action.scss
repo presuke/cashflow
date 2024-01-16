@@ -170,7 +170,10 @@
     }
 
     .actionResult{
-        background-color: rgba(255,255,255,0.8);
+        /*background-color: rgba(255,255,255,0.8);*/
+        background-image: url('../../../image/cardPanel.png');
+        background-position-x: center;
+        background-size: contain;
         .vacation{
             div{
                 margin-bottom:5px;
