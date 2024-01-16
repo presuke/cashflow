@@ -224,7 +224,7 @@
             }
         }
         .periodComplete{
-            background-image: url('../../../image/action/kessan.png');
+            background-image: url('../../image/action/kessan.png');
             background-position-x: center;
             background-size: contain;
             > .sheet{
@@ -349,7 +349,7 @@
     cursor: pointer;
 }
 .win{
-    background-color: url('../../../image/win.png');
+    background-color: url('../../image/action/win.png');
     padding-top:40px;
 }
 @keyframes fadeDownAnime{
