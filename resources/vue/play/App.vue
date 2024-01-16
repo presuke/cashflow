@@ -523,7 +523,7 @@ export default {
 								}else{
 									this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
 									this.se.Katakata.play();
-									endCount[ketParameter]++;
+									endCount[keyParameter]++;
 								}
 							},100);
 						}
