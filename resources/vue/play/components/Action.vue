@@ -224,13 +224,23 @@
                                 />
                             </div>
                             <div style="float:left; width:60px; text-align:right;">
-                                {{ asset.buy.toLocaleString() }}
+                                <span v-if="asset.buy < 10000">
+                                    {{ asset.buy.toLocaleString() }}
+                                </span>
+                                <span v-else style="font-size:smaller;">
+                                    {{ asset.buy.toLocaleString() }}
+                                </span>
                             </div>
                             <div style="float:left;">
                                 ⇒
                             </div>
                             <div  style="float:left;width:60px; text-align:right;">
-                                {{ asset.sell.toLocaleString() }}
+                                <span v-if="asset.sell < 10000">
+                                    {{ asset.sell.toLocaleString() }}
+                                </span>
+                                <span v-else style="font-size:smaller;">
+                                    {{ asset.sell.toLocaleString() }}
+                                </span>
                             </div>
                             <div style="float:left;">
                                 ×
