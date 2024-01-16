@@ -37,7 +37,7 @@
 }
 
 .action{
-	background-image:url('../../../image/cardDesign.jpg');
+	background-image:url('../../image/cardDesign.png');
     background-size: 100% 100%;
     text-align:center;
 
@@ -46,7 +46,7 @@
         border-radius: 15px;
         width: 360px;
         height: 220px;
-        background-image:url('../../../image/cardBg.jpg');
+        background-color:white;
         background-size: cover;
         .frame{
             position: absolute;
