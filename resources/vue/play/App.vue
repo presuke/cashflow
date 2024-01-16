@@ -511,13 +511,14 @@ export default {
 					keyParameters.forEach(keyParameter =>{
 						if(player[keyParameter] != this.scores[player.id][keyParameter]){
 							let timerAnimation = setInterval(() =>{
-								this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
-								this.se.Katakata.play();
 								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10){
 									this.scores[player.id][keyParameter] = player[keyParameter];
 									clearInterval(timerAnimation);
 									this.se.Katakata.pause();
 							        this.se.Katakata.currentTime = 0;
+								}else{
+									this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
+									this.se.Katakata.play();
 								}
 							},100);
 						}
