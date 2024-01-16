@@ -74,15 +74,13 @@
                 <div v-if="($parent.crntPlayer.turn % $parent.room.period) == 0 && $parent.action.action != 'periodComplete'"
                 class="periodComplete"
                 >
-                    <div style="background-image: url('../../../image/action/kessan.png'); background-repeat: no-repeat; background-position-x: center; background-size: contain; width:300px;height:200px;">
-                        <div style="font-size:100px; color:yellow; text-shadow: 0 0 10px red, 0 0 20px darkred;">
-                            決算
-                        </div>
-                        <div v-if="$parent.crntPlayer.id == $parent.me.id">
-                            <v-btn @click="$parent.act('period')">
-                                決算処理をする
-                            </v-btn>
-                        </div>
+                    <div style="font-size:100px; color:yellow; text-shadow: 0 0 10px red, 0 0 20px darkred;">
+                        決算
+                    </div>
+                    <div v-if="$parent.crntPlayer.id == $parent.me.id">
+                        <v-btn @click="$parent.act('period')">
+                            決算処理をする
+                        </v-btn>
                     </div>
                 </div>
                 <div v-else-if="$parent.action.event == 0"
