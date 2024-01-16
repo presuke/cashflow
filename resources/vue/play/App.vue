@@ -509,10 +509,13 @@ export default {
 				}
 
 				this.players.forEach(player => {
+					let endCount = {};
 					keyParameters.forEach(keyParameter =>{
+						endCount[ketParameter] = 0;
 						if(player[keyParameter] != this.scores[player.id][keyParameter]){
 							let timerAnimation = setInterval(() =>{
-								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10){
+								if(Math.abs(this.scores[player.id][keyParameter] - player[keyParameter]) < 10
+								   || endCount[ketParameter] > 10){
 									this.scores[player.id][keyParameter] = player[keyParameter];
 									clearInterval(timerAnimation);
 									this.se.Katakata.pause();
@@ -520,6 +523,7 @@ export default {
 								}else{
 									this.scores[player.id][keyParameter] += Math.ceil((player[keyParameter] - this.scores[player.id][keyParameter]) / 5);
 									this.se.Katakata.play();
+									endCount[ketParameter]++;
 								}
 							},100);
 						}
