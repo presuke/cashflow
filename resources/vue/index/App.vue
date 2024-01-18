@@ -50,10 +50,10 @@ export default {
 				<div style="margin:5px;"></div>
 				<div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
 					<a 
-					href="javascript:return(false);"
+					href="https://www.nicovideo.jp/watch/sm43279467"
+					target="_blank"
 					style="width:360px;"
 					class="btn btn-border-gradient" 
-					@click="this.form.howto.displayDialog=true"
 					>
 						<span class="btn-text-gradient--gold">How To</span>
 					</a>

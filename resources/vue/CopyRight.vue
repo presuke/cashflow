@@ -8,6 +8,9 @@
             ステータスアイコン：<a href="https://icooon-mono.com/" target="_blank">モノアイコン様</a>
         </li>
         <li>
+            ジョブアイコン：<a href="https://www.canva.com/" target="_blank">canva.com様</a>
+        </li>
+        <li>
             アクションイラスト：<a href="https://www.irasutoya.com/" target="_blank">いらすとや様</a>
         </li>
         <li>
